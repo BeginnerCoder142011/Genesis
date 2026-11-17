@@ -112,7 +112,7 @@
     <p class="lead">Generation runs locally on every platform. Pick your OS and the download card below switches to that build, filename and size.</p>
   </div>
 
-  <div class="channel" role="tablist" aria-label="Release channel">
+  <div class="channel" role="tablist" aria-label="Release channel" hidden>
     <button class="on" data-channel="stable" role="tab" aria-selected="true">Stable</button>
     <button data-channel="beta" role="tab" aria-selected="false">Beta</button>
   </div>
@@ -313,6 +313,42 @@ function activeRelease() {
   return GENESIS_RELEASES[0];
 }
 
+/* ---------- published-state check ----------
+   pending:false means "download directly", but we still confirm the tag
+   exists on the repo so a release that isn't published yet sends people to
+   the releases page rather than a 404. Result cached per session. -------- */
+const PUBLISHED_KEY = 'genesis-published-tags';
+let publishedTags = null;   // null = unknown (API unreachable / not asked yet)
+
+function loadPublishedTags() {
+  try {
+    const cached = sessionStorage.getItem(PUBLISHED_KEY);
+    if (cached) { publishedTags = new Set(JSON.parse(cached)); return Promise.resolve(publishedTags); }
+  } catch (e) { /* private mode */ }
+
+  if (typeof fetch !== 'function' || typeof GENESIS_GH_API_RELEASES === 'undefined') {
+    return Promise.resolve(null);
+  }
+  return fetch(GENESIS_GH_API_RELEASES, { headers: { Accept: 'application/vnd.github+json' } })
+    .then(r => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+    .then(list => {
+      const set = new Set();
+      (Array.isArray(list) ? list : []).forEach(rel => {
+        if (rel && rel.tag_name && !rel.draft) set.add(rel.tag_name);
+      });
+      publishedTags = set;
+      try { sessionStorage.setItem(PUBLISHED_KEY, JSON.stringify([...set])); } catch (e) {}
+      return set;
+    })
+    .catch(() => null);
+}
+
+function isUnpublished(rel) {
+  if (rel.pending) return true;
+  if (publishedTags && !publishedTags.has(rel.tag)) return true;
+  return false;
+}
+
 /* ---------- download card ---------- */
 function renderCard() {
   const rel = activeRelease();
@@ -374,7 +410,7 @@ function renderCard() {
     note = 'Requires Geode v' + rel.geode + '+ installed for GD ' + rel.gd +
       '. Installs through Geode → Install from file, or by dropping the .geode into your mods folder.';
   }
-  if (rel.pending) {
+  if (isUnpublished(rel)) {
     note += ' Not published on GitHub yet — the file appears here once the '
       + rel.tag + ' release has assets attached.';
   }
@@ -443,7 +479,7 @@ function renderHistory() {
       <td style="font-family:var(--mono);font-size:11.5px;color:var(--txt-faint)">${asset ? asset.file : '—'}</td>
       <td style="font-family:var(--mono);font-size:12px">${asset && asset.size ? asset.size : '—'}</td>
       <td>${asset
-        ? (rel.pending
+        ? (isUnpublished(rel)
             ? `<a href="${GENESIS_GH_RELEASES}" target="_blank" rel="noopener" style="color:var(--txt-faint);font-family:var(--mono);font-size:12px">pending ↗</a>`
             : `<a href="${genesisAssetUrl(rel.tag, asset.file)}" class="v-dl" data-file="${asset.file}" data-tag="${rel.tag}" style="color:var(--cyan);font-family:var(--mono);font-size:12px">get ↓</a>`)
         : `<span style="color:var(--txt-faint);font-family:var(--mono);font-size:12px">n/a</span>`}</td>
@@ -527,7 +563,7 @@ el('dl-btn').addEventListener('click', () => {
     showToast('Set GENESIS_REPO in releases.js to your GitHub repo first.', true);
     return;
   }
-  if (rel.pending) {
+  if (isUnpublished(rel)) {
     showToast('v' + rel.version + ' is not published on GitHub yet — opening the releases page.');
     window.open(GENESIS_GH_RELEASES, '_blank', 'noopener');
     return;
@@ -590,6 +626,8 @@ const BETA_LINK_MODE = new URLSearchParams(location.search).get('channel') === '
 (function deepLink() {
   if (!(BETA_LINK_MODE && GENESIS_BETA)) return;
   channel = 'beta';
+  const ch = document.querySelector('.channel');
+  if (ch) ch.removeAttribute('hidden');
   document.querySelectorAll('.channel button').forEach(b => {
     const on = b.dataset.channel === 'beta';
     b.classList.toggle('on', on);
@@ -610,6 +648,10 @@ renderHero();
 renderCard();
 renderChangelog();
 renderHistory();
+
+loadPublishedTags().then(tags => {
+  if (tags) repaint();          // only repaint when the answer changed something
+});
 </script>
 </body>
 </html>
