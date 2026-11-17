@@ -1,7 +1,10 @@
 # GENESIS site
-# The beta tester page and the link-only beta channel are not indexed.
+# The beta tester page and the link-only beta channel are intentionally
+# excluded from indexing and from sitemap.xml.
 
 User-agent: *
 Allow: /
 Disallow: /beta.html
 Disallow: /download.html?channel=beta
+
+Sitemap: https://beginnercoder142011.github.io/Genesis/sitemap.xml
