@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GENESIS — Level Generation for the Geometry Dash Editor</title>
+<meta name="description" content="GENESIS is a Geode mod that adds one Generate button to the Geometry Dash editor and builds a playable, beat-synced level from a prompt or a song in your library. Layout or fully decorated, 1.0 through 2.2." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="glow a"></div>
+<div class="glow b"></div>
+<div class="glow c"></div>
+
+<header id="site-header">
+  <div class="wrap nav">
+    <a href="#" class="brand">
+      <span class="logo">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z" fill="#08080f"/></svg>
+      </span>
+      GENESIS
+    </a>
+    <nav class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#preview">Live preview</a>
+      <a href="docs.html">Docs</a>
+      <a href="#builder">Configure</a>
+      <a href="download.html">Download</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn ghost" href="docs.html">Read the docs</a>
+      <a class="btn primary" href="download.html">Download</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="wrap hero">
+  <div>
+    <div class="badge"><span class="dot"></span>Geode v5 · Geometry Dash 2.2081</div>
+    <h1>One button.<br><span class="grad">An entire level.</span></h1>
+    <p class="lead">
+      <b>GENESIS</b> adds a single <code style="font-family:var(--mono);font-size:.92em;color:var(--cyan)">Generate</code>
+      button to the Geometry Dash editor. Describe a level — or pick a song from your library — and it builds fully
+      playable, beat-synced geometry right where your cursor is. Layout or full decoration, on any object set from 1.0 to 2.2.
+    </p>
+    <div class="hero-actions">
+      <a class="btn primary" href="download.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>
+        Download GENESIS
+      </a>
+      <a class="btn ghost" href="#builder">Try the configurator</a>
+    </div>
+    <div class="hero-meta">
+      <span>GAME&nbsp;<b>2.2081</b></span>
+      <span>GEODE&nbsp;<b>v5.0.0+</b></span>
+      <span>PLATFORMS&nbsp;<b>Win · Mac · Android · iOS</b></span>
+      <span>SYNC&nbsp;<b>Beat-grid locked</b></span>
+    </div>
+  </div>
+
+  <div class="editor" aria-hidden="true">
+    <div class="ed-bar">
+      <span class="ed-dot r"></span><span class="ed-dot y"></span><span class="ed-dot g"></span>
+      <span class="ed-title">Level Editor — Untitled_1</span>
+    </div>
+    <div class="ed-canvas" id="canvas"></div>
+    <div class="ed-panel">
+      <div class="ed-row">
+        <span>PROMPT</span>
+        <div class="prompt-box">make a hard 2.2 wave part at 180 bpm<span class="caret">▌</span></div>
+      </div>
+      <div class="ed-row" style="flex-wrap:wrap;gap:7px">
+        <span class="chip on">2.2</span>
+        <span class="chip on">Orbs</span>
+        <span class="chip">Pads</span>
+        <span class="chip on">Portals</span>
+        <span class="chip on">Layout</span>
+        <span class="chip" style="margin-left:auto;border-color:var(--line)">GC</span>
+      </div>
+      <button class="gen-btn" onclick="document.getElementById('builder').scrollIntoView({behavior:'smooth'})">✦ Generate Level</button>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span>Prompt → level</span><span>Song → level</span><span>Beat-synced</span><span>Orbs · Pads · Portals</span>
+    <span>Layout mode</span><span>Full decoration</span><span>1.0 → 2.2 object sets</span><span>Auto playtest</span>
+    <span>Prompt → level</span><span>Song → level</span><span>Beat-synced</span><span>Orbs · Pads · Portals</span>
+    <span>Layout mode</span><span>Full decoration</span><span>1.0 → 2.2 object sets</span><span>Auto playtest</span>
+  </div>
+</div>
+
+<!-- ============ HOW ============ -->
+<section class="wrap sec" id="how">
+  <div class="sec-head reveal">
+    <div class="eyebrow">How it works</div>
+    <h2>Three steps, all inside the editor.</h2>
+    <p class="lead">No external editors, no JSON wrangling, no copy-pasting object strings. The mod lives inside the game and writes directly into the level you already have open.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal">
+      <span class="step-n">STEP 01</span>
+      <h3>Press <code>Generate</code></h3>
+      <p>The button sits in the editor toolbar next to Build Helper. Click it and the Generate panel opens — it knows your song, your BPM and your current cursor position.</p>
+    </div>
+    <div class="step reveal">
+      <span class="step-n">STEP 02</span>
+      <h3>Prompt it, or pick a song</h3>
+      <p>Type what you want ("slow easy cube part with portals"), or choose any track from your in-game saved song library — official GD music or your own imported files. Sync is derived from the chosen song.</p>
+    </div>
+    <div class="step reveal">
+      <span class="step-n">STEP 03</span>
+      <h3>Generate &amp; playtest</h3>
+      <p>Objects are placed from your cursor forward as a real level. Undo works normally — the whole generation lands as one undo stack entry so you can nuke it in a single Ctrl+Z.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="wrap sec" id="features" style="padding-top:0">
+  <div class="sec-head reveal">
+    <div class="eyebrow">Features</div>
+    <h2>Everything the generator understands.</h2>
+    <p class="lead">Every option is a real toggle in the panel — not a prompt keyword you have to guess. Mix them however you like.</p>
+  </div>
+  <div class="features">
+    <div class="card reveal">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V5m0 14h16"/><path d="M7 15l3-4 3 3 4-6"/></svg></div>
+      <h3>Version-aware object sets</h3>
+      <p>Choose 1.0 through 2.2 and the generator only uses objects, triggers and mechanics that actually existed in that update. No anachronistic teleport portals in a 1.9 level.</p>
+    </div>
+    <div class="card reveal">
+      <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/></svg></div>
+      <h3>Orbs, pads &amp; portals</h3>
+      <p>Toggle each gadget class independently. The generator places them at jump arcs that are actually reachable — verified against the real hitboxes, not guessed.</p>
+    </div>
+    <div class="card reveal">
+      <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/></svg></div>
+      <h3>Layout or full decorated</h3>
+      <p>Layout mode gives you clean, readable structure to build over. Decorated mode adds block design, ground styling, pulses, move triggers and camera work.</p>
+    </div>
+    <div class="card reveal">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/></svg></div>
+      <h3>Song-driven sync</h3>
+      <p>Pick a track from your saved library and the level snaps to its beat grid. Structure follows the actual song — intro, build, drop, outro — not a fixed length.</p>
+    </div>
+    <div class="card reveal">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/><circle cx="12" cy="12" r="5"/></svg></div>
+      <h3>Difficulty targeting</h3>
+      <p>Ask for Easy, Normal, Hard, Harder, Insane or Extreme. Gap sizes, timing windows and gadget density all scale with the tier you select.</p>
+    </div>
+    <div class="card reveal">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></div>
+      <h3>Regenerate &amp; iterate</h3>
+      <p>Not feeling it? Re-roll the same settings for a different seed, or keep the layout and ask for decoration only. One undo per pass.</p>
+    </div>
+    <div class="card reveal">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3 4 7v6c0 5 3.5 7.5 8 8 4.5-.5 8-3 8-8V7l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+      <h3>Playability guard</h3>
+      <p>Every generated segment is checked for impossible gaps, ceiling traps and unreachable coins before it's committed. Broken patterns are re-rolled automatically.</p>
+    </div>
+    <div class="card reveal">
+      <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+      <h3>Objects only, no bloat</h3>
+      <p>Output is ordinary editor objects — no custom IDs, no mod dependency baked into the level. Share it with vanilla players and it still opens fine.</p>
+    </div>
+    <div class="card reveal">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z"/></svg></div>
+      <h3>Tracks Geode releases</h3>
+      <p>Built on Geode's public API with no hardcoded game addresses. When a new GD build lands, GENESIS follows it with a matching build — 2.2091 support ships on the Geode 6 line.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIVE PREVIEW ============ -->
+<section class="wrap sec" id="preview" style="padding-top:0">
+  <div class="sec-head reveal">
+    <div class="eyebrow">Live preview</div>
+    <h2>This is real output, scrolling.</h2>
+    <p class="lead">A generated level running in the editor viewport — obstacles, orbs, pads and beat pulses exactly as GENESIS lays them down. Switch to full decoration to see what a decorated pass adds on top of the bare layout.</p>
+  </div>
+
+  <div class="preview-shell reveal">
+    <div class="pv-top">
+      <span class="pv-live"><span class="dot"></span>Live</span>
+      <span class="pv-stat">SEED <b id="pv-seed">4821</b></span>
+      <span class="pv-stat">BPM <b id="pv-bpm">174</b></span>
+      <span class="pv-stat">OBJECTS <b id="pv-objs">0</b></span>
+      <span class="pv-stat pv-spacer">MODE <b id="pv-mode">layout</b></span>
+    </div>
+    <div class="pv-canvas-wrap">
+      <canvas id="level-canvas"></canvas>
+      <div class="pv-overlay">
+        <span>SECTION <b id="pv-sec">intro</b></span>
+        <span>PROGRESS <b id="pv-pct">0%</b></span>
+      </div>
+    </div>
+    <div class="pv-controls">
+      <button class="pv-btn act" id="pv-play">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-pause"/></svg>
+        <span class="lbl">Pause</span>
+      </button>
+      <button class="pv-btn" id="pv-reroll">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-reroll"/></svg>
+        New seed
+      </button>
+      <div class="pv-toggle">
+        <button class="on" data-mode="layout">Layout</button>
+        <button data-mode="decorated">Full decorated</button>
+      </div>
+      <span class="pv-hint">auto-pilot · runs in the editor viewport</span>
+    </div>
+  </div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ic-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></symbol>
+    <symbol id="ic-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8V4z"/></symbol>
+    <symbol id="ic-reroll" viewBox="0 0 24 24"><path d="M12 4a8 8 0 1 0 7.4 5h-2.2A6 6 0 1 1 12 6v3l5-3.5L12 2v2z"/></symbol>
+  </svg>
+</section>
+
+<!-- ============ INTERACTIVE BUILDER ============ -->
+<section class="wrap sec" id="builder" style="padding-top:0">
+  <div class="sec-head reveal">
+    <div class="eyebrow">The panel</div>
+    <h2>Configure a generation.</h2>
+    <p class="lead">This is what the in-editor panel looks like. Click the options and watch the request — and the expected output — update live.</p>
+  </div>
+
+  <div class="config reveal">
+    <div class="config-grid">
+      <div class="config-left">
+        <div class="cfg-group">
+          <span class="cfg-label">Source</span>
+          <div class="opts" data-group="source">
+            <div class="opt active" data-val="Prompt">Prompt</div>
+            <div class="opt" data-val="Song library">Song library</div>
+            <div class="opt" data-val="Prompt + Song">Prompt + Song</div>
+          </div>
+        </div>
+        <div class="cfg-group">
+          <span class="cfg-label">Game version</span>
+          <div class="opts" data-group="version">
+            <div class="opt" data-val="1.0">1.0</div>
+            <div class="opt" data-val="1.9">1.9</div>
+            <div class="opt" data-val="2.0">2.0</div>
+            <div class="opt" data-val="2.1">2.1</div>
+            <div class="opt active" data-val="2.2">2.2</div>
+          </div>
+        </div>
+        <div class="cfg-group">
+          <span class="cfg-label">Gadgets</span>
+          <div class="opts" data-group="gadgets">
+            <div class="opt active" data-val="Orbs">Orbs</div>
+            <div class="opt active" data-val="Pads">Pads</div>
+            <div class="opt active" data-val="Portals">Portals</div>
+            <div class="opt" data-val="Speed">Speed</div>
+            <div class="opt" data-val="Teleport">Teleport</div>
+          </div>
+        </div>
+        <div class="cfg-group">
+          <span class="cfg-label">Mode</span>
+          <div class="opts" data-group="mode">
+            <div class="opt active" data-k="mode" data-val="Layout">Layout</div>
+            <div class="opt" data-k="mode" data-val="Full decorated">Full decorated</div>
+          </div>
+        </div>
+        <div class="cfg-group" style="margin-bottom:0">
+          <span class="cfg-label">Difficulty</span>
+          <div class="opts" data-group="diff">
+            <div class="opt" data-val="Easy">Easy</div>
+            <div class="opt" data-val="Normal">Normal</div>
+            <div class="opt" data-val="Hard">Hard</div>
+            <div class="opt active" data-val="Insane">Insane</div>
+            <div class="opt" data-val="Extreme">Extreme</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-right">
+        <div class="cfg-song">
+          <div class="song-thumb">
+            <svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="2.6"/><circle cx="16" cy="16" r="2.6"/></svg>
+          </div>
+          <div class="song-meta">
+            <b id="songName">Stereo Madness</b>
+            <small id="songMeta">Official · 140 BPM · 1:28</small>
+          </div>
+          <div class="bars" aria-hidden="true">
+            <i style="animation-delay:0s"></i><i style="animation-delay:.12s"></i><i style="animation-delay:.24s"></i>
+            <i style="animation-delay:.36s"></i><i style="animation-delay:.48s"></i><i style="animation-delay:.18s"></i>
+            <i style="animation-delay:.3s"></i><i style="animation-delay:.06s"></i>
+          </div>
+        </div>
+        <span class="out-label">Generation request</span>
+        <div class="out" id="out"></div>
+        <button class="btn primary" style="width:100%" id="reroll">↻ Re-roll seed &amp; preview</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPATIBILITY ============ -->
+<section class="wrap sec" id="compatibility" style="padding-top:0">
+  <div class="sec-head reveal">
+    <div class="eyebrow">Compatibility</div>
+    <h2>Works on the GD you already have.</h2>
+    <p class="lead">Built against Geode's stable ABI rather than a fixed game build, so 2.2081 is the floor — not the ceiling.</p>
+  </div>
+  <div class="table-shell reveal">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>Component</th><th>Supported</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Geometry Dash</b></td>
+            <td class="ok">2.2081</td>
+            <td>Stable target — the current Geode 5.x line. GD 2.2091 runs only on Geode 6 (alpha).</td>
+          </tr>
+          <tr>
+            <td><b>Geode loader</b></td>
+            <td class="ok">v5.0.0+</td>
+            <td>Tested against v5.11.2. v6 mods are built separately from the same source.</td>
+          </tr>
+          <tr>
+            <td><b>GD 2.2091</b></td>
+            <td class="partial">Beta build</td>
+            <td>Needs Geode v6.0.0-alpha+ and the GENESIS beta channel.</td>
+          </tr>
+          <tr>
+            <td><b>Windows</b></td>
+            <td class="ok">Full support</td>
+            <td>Editor integration, generation, decoration.</td>
+          </tr>
+          <tr>
+            <td><b>macOS</b></td>
+            <td class="ok">Full support</td>
+            <td>Universal binary (Apple Silicon + Intel).</td>
+          </tr>
+          <tr>
+            <td><b>Android</b></td>
+            <td class="ok">Full support</td>
+            <td>Panel adapts to touch layout; generation runs off the UI thread.</td>
+          </tr>
+          <tr>
+            <td><b>iOS</b></td>
+            <td class="partial">Experimental</td>
+            <td>Works via sideloaded Geode; not all decoration triggers verified.</td>
+          </tr>
+          <tr>
+            <td><b>Object versions</b></td>
+            <td class="ok">1.0 – 2.2</td>
+            <td>Each set restricts the pool to objects that existed in that update.</td>
+          </tr>
+          <tr>
+            <td><b>Songs</b></td>
+            <td class="ok">Official + Newgrounds + local</td>
+            <td>Reads your in-game saved music library; the level syncs to whichever track you select.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSTALL ============ -->
+<section class="wrap sec install" id="install" style="padding-top:0">
+  <div class="reveal">
+    <div class="eyebrow">Install</div>
+    <h2>Drop it in. Open the editor. Press Generate.</h2>
+    <p class="lead" style="margin-bottom:26px">
+      Generate ships as a standard <code style="font-family:var(--mono);color:var(--cyan);font-size:.92em">.geode</code>
+      package. If you already run Geode, install it straight from the in-game mod browser — search <b style="color:var(--txt)">GENESIS</b> — or grab the file on the <a href="download.html" style="color:var(--cyan)">download page</a>.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:14px;color:var(--txt-dim);font-size:14.5px">
+      <div style="display:flex;gap:12px"><span style="color:var(--violet);font-family:var(--mono);font-size:12px;padding-top:2px">01</span><span>Install <b style="color:var(--txt)">Geode</b> for your platform and launch GD once so the loader sets up.</span></div>
+      <div style="display:flex;gap:12px"><span style="color:var(--violet);font-family:var(--mono);font-size:12px;padding-top:2px">02</span><span>Open <b style="color:var(--txt)">Mods → Browse</b> and install <b style="color:var(--txt)">GENESIS</b>, or drop the .geode file into your mods folder.</span></div>
+      <div style="display:flex;gap:12px"><span style="color:var(--violet);font-family:var(--mono);font-size:12px;padding-top:2px">03</span><span>Restart, open the <b style="color:var(--txt)">Level Editor</b>, and hit the new <b style="color:var(--cyan)">Generate</b> button.</span></div>
+    </div>
+  </div>
+
+  <div class="code reveal">
+    <div class="code-bar">
+      <span class="ed-dot r"></span><span class="ed-dot y"></span><span class="ed-dot g"></span>
+      <span style="margin-left:8px">mod.json</span>
+      <button class="copy" onclick="copyCode(this)">Copy</button>
+    </div>
+<pre id="codeblock"><span class="c-com">// GENESIS — the metadata Geode reads at install time</span>
+{
+  <span class="c-key">"geode"</span>: <span class="c-str">"v5.0.0"</span>,
+  <span class="c-key">"gd"</span>: {
+    <span class="c-key">"win"</span>: <span class="c-str">"2.2081"</span>,
+    <span class="c-key">"mac"</span>: <span class="c-str">"2.2081"</span>,
+    <span class="c-key">"android"</span>: <span class="c-str">"2.2081"</span>,
+    <span class="c-key">"ios"</span>: <span class="c-str">"2.2081"</span>
+  },
+  <span class="c-key">"id"</span>:         <span class="c-str">"beginnercoder142011.genesis"</span>,
+  <span class="c-key">"name"</span>:       <span class="c-str">"GENESIS"</span>,
+  <span class="c-key">"version"</span>:    <span class="c-str">"v1.0.0"</span>,
+  <span class="c-key">"developer"</span>:  <span class="c-str">"BeginnerCoder142011"</span>,
+  <span class="c-key">"description"</span>:<span class="c-str">"Generate button for the editor."</span>,
+  <span class="c-key">"tags"</span>: [<span class="c-str">"editor"</span>, <span class="c-str">"utility"</span>, <span class="c-str">"content"</span>],
+  <span class="c-key">"dependencies"</span>: {
+    <span class="c-key">"geode.node-ids"</span>: <span class="c-str">">=v1.23.3"</span>
+  },
+  <span class="c-key">"settings"</span>: {
+    <span class="c-key">"use-song-sync"</span>: { <span class="c-key">"type"</span>: <span class="c-str">"bool"</span>, <span class="c-key">"default"</span>: <span class="c-fn">true</span> }
+  }
+}</pre>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="wrap sec" id="faq" style="padding-top:0">
+  <div class="sec-head reveal" style="margin-inline:auto;text-align:center;max-width:620px">
+    <div class="eyebrow" style="justify-content:center">FAQ</div>
+    <h2>Questions, answered.</h2>
+  </div>
+  <div class="faq reveal">
+    <details class="q">
+      <summary>Does the generated level count as my own?</summary>
+      <p>The mod outputs ordinary editor objects into your own level file. How you publish it is up to you — but most creators use it for layout drafts, decoration bases and quick playtestable structures rather than publishing raw output unchanged.</p>
+    </details>
+    <details class="q">
+      <summary>Which songs can it sync to?</summary>
+      <p>Any track available in your in-game saved music library — the official GD soundtrack, songs you've downloaded through the game, and your own imported audio files. Sync tempo and offset are read from the track and used as the generation beat grid.</p>
+    </details>
+    <details class="q">
+      <summary>What's the difference between Layout and Full decorated?</summary>
+      <p>Layout mode produces only gameplay-relevant geometry, so it stays readable and cheap on objects. Full decorated additionally generates block design, ground/background styling, pulses, move triggers and camera work — still using stock objects only.</p>
+    </details>
+    <details class="q">
+      <summary>Will it break when GD 2.3 comes out?</summary>
+      <p>The mod is compiled against Geode's version-independent interface and doesn't hardcode game addresses. When a new game build ships, it typically needs a Geode update rather than a mod rewrite — and new object sets get added as they're documented.</p>
+    </details>
+    <details class="q">
+      <summary>Can I edit what it generates?</summary>
+      <p>Yes — that's the point. Everything lands as normal editor objects you can select, move, delete or restyle. Each generation pass is a single undo entry, so Ctrl+Z removes a whole attempt cleanly.</p>
+    </details>
+    <details class="q">
+      <summary>Does it need an internet connection?</summary>
+      <p>No. Generation and song analysis run locally on your machine. Nothing about your level or your music is uploaded anywhere.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="wrap" style="padding-bottom:20px">
+  <div class="cta reveal">
+    <div class="eyebrow" style="justify-content:center">Ready</div>
+    <h2>Stop laying down the boring blocks.</h2>
+    <p>Install Generate, hit the button, and start from something playable instead of a blank grid.</p>
+    <div class="cta-actions">
+      <a class="btn primary" href="download.html">Download .geode</a>
+      <a class="btn ghost" href="#builder">See the options</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div style="max-width:280px">
+        <a href="#" class="brand" style="margin-bottom:14px">
+          <span class="logo">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z" fill="#08080f"/></svg>
+          </span>
+          GENESIS
+        </a>
+        <p style="color:var(--txt-dim);font-size:13.5px;line-height:1.7">A Geode mod for the Geometry Dash editor. Prompt or song in, playable level out.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Mod</h4>
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#preview">Live preview</a>
+        <a href="docs.html">Documentation</a>
+        <a href="download.html">Download</a>
+      </div>
+      <div class="foot-col">
+        <h4>Community</h4>
+        <a href="https://geode-sdk.org" target="_blank" rel="noopener">Geode SDK</a>
+        <a href="https://discord.gg/geode" target="_blank" rel="noopener">Discord</a>
+        <a href="https://github.com" target="_blank" rel="noopener">Source</a>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <a href="#faq">FAQ</a>
+        <a href="#">License</a>
+        <a href="#">Credits</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 GENESIS · Geode mod</span>
+      <span class="disclaimer">Not affiliated with RobTop Games or the Geode SDK team. Geometry Dash is a trademark of RobTop Games AB.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- header scroll ---------- */
+const header = document.getElementById('site-header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 12), {passive:true});
+
+/* ---------- canvas objects ---------- */
+(function buildCanvas(){
+  const c = document.getElementById('canvas');
+  if(!c) return;
+  const tracks = [ {top:'60%'}, {top:'74%'}, {top:'88%'} ];
+  tracks.forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'track';
+    d.style.top = t.top;
+    c.appendChild(d);
+  });
+  // ground
+  const g = document.createElement('div');
+  g.style.cssText = 'position:absolute;left:0;right:0;bottom:0;height:26px;background:#161628;border-top:1px solid #2a2a44;z-index:1';
+  c.appendChild(g);
+
+  const blocks = [
+    // x, y, w, h, cls
+    [78, 148, 34, 16], [112, 148, 34, 16], [146, 148, 34, 16],
+    [150, 132, 30, 16],
+    [252, 168, 24, 16],
+    [300, 168, 30, 16], [300, 152, 30, 16],
+    [392, 148, 34, 16], [426, 148, 34, 16],
+  ];
+  blocks.forEach(([x,y,w,h]) => {
+    const b = document.createElement('div');
+    b.className = 'block';
+    b.style.left = x+'px'; b.style.top = y+'px';
+    b.style.width = w+'px'; b.style.height = h+'px';
+    c.appendChild(b);
+  });
+  // spikes
+  [[212,182],[240,182],[360,182],[452,182]].forEach(([x,y])=>{
+    const s = document.createElement('div');
+    s.className = 'block spike';
+    s.style.left = x+'px'; s.style.top = y+'px';
+    c.appendChild(s);
+  });
+  // orbs
+  [[196,110],[286,96],[374,112]].forEach(([x,y])=>{
+    const o = document.createElement('div');
+    o.className = 'block orb';
+    o.style.left = x+'px'; o.style.top = y+'px';
+    c.appendChild(o);
+  });
+  // pads
+  [[240,124],[344,140]].forEach(([x,y])=>{
+    const p = document.createElement('div');
+    p.className = 'block pad';
+    p.style.left = x+'px'; p.style.top = y+'px';
+    c.appendChild(p);
+  });
+  // player last so it's on top
+  const pl = document.createElement('div');
+  pl.className = 'player';
+  c.appendChild(pl);
+})();
+
+/* ---------- configurator ---------- */
+const state = {
+  source:'Prompt',
+  version:'2.2',
+  gadgets:['Orbs','Pads','Portals'],
+  mode:'Layout',
+  diff:'Insane'
+};
+const versionNames = {
+  '1.0':'1.0 (pre-update)', '1.9':'1.9', '2.0':'2.0', '2.1':'2.1', '2.2':'2.2'
+};
+const out = document.getElementById('out');
+let seed = 4821;
+
+const sampleSongs = [
+  ['Stereo Madness','Official · 140 BPM · 1:28'],
+  ['Back On Track','Official · 150 BPM · 1:34'],
+  ['Polargeist','Official · 155 BPM · 1:44'],
+  ['Dry Out','Official · 165 BPM · 1:40'],
+  ['Base After Base','Official · 175 BPM · 1:52'],
+  ['Jumper','Official · 180 BPM · 2:06'],
+  ['Cant Let Go','Official · 170 BPM · 1:58'],
+  ['My Custom Track.mp3','Local import · 174 BPM · 3:12']
+];
+
+function renderOut(){
+  const g = state.gadgets.length ? state.gadgets.join(', ') : 'none';
+  const lines = [
+    ['target',      'editor://level/cursor'],
+    ['source',      state.source],
+    ['song',        document.getElementById('songName').textContent],
+    ['gd_version',  state.version],
+    ['gadgets',     g],
+    ['mode',        state.mode],
+    ['difficulty',  state.diff],
+    ['seed',        String(seed)],
+    ['length',      state.mode === 'Full decorated' ? '8 sections · 1:40' : '8 sections · 1:40']
+  ];
+  out.innerHTML = lines.map(([k,v],i) =>
+    `<span class="k">${k}</span><span class="k"> = </span>` +
+    `<span class="${i===6?'w':i===4?'p':'v'}">"${v}"</span>`
+  ).join('\n');
+}
+renderOut();
+
+document.querySelectorAll('.opts').forEach(group => {
+  const key = group.dataset.group;
+  const multi = key === 'gadgets';
+  group.addEventListener('click', e => {
+    const opt = e.target.closest('.opt');
+    if(!opt) return;
+    if(multi){
+      opt.classList.toggle('active');
+      state.gadgets = [...group.querySelectorAll('.opt.active')].map(o=>o.dataset.val);
+    } else {
+      group.querySelectorAll('.opt').forEach(o=>o.classList.remove('active'));
+      opt.classList.add('active');
+      state[key] = opt.dataset.val;
+      if(key === 'source'){
+        const songBox = document.querySelector('.cfg-song');
+        songBox.style.opacity = state.source === 'Prompt' ? '.45' : '1';
+      }
+    }
+    renderOut();
+  });
+});
+
+document.getElementById('reroll').addEventListener('click', () => {
+  seed = Math.floor(Math.random()*9000)+1000;
+  const song = sampleSongs[Math.floor(Math.random()*sampleSongs.length)];
+  document.getElementById('songName').textContent = song[0];
+  document.getElementById('songMeta').textContent = song[1];
+  renderOut();
+  out.animate([{opacity:.35},{opacity:1}], {duration:380, easing:'ease-out'});
+});
+
+/* ---------- copy ---------- */
+function copyCode(btn){
+  const text = document.getElementById('codeblock').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    const old = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    setTimeout(()=>btn.textContent = old, 1600);
+  }).catch(()=>{ btn.textContent = 'Ctrl+C'; });
+}
+
+/* ---------- reveal on scroll ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if(en.isIntersecting){
+      en.target.classList.add('in');
+      io.unobserve(en.target);
+    }
+  });
+}, {threshold:.12, rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.reveal').forEach((el,i)=>{
+  el.style.transitionDelay = (i % 3) * 70 + 'ms';
+  io.observe(el);
+});
+</script>
+<script src="releases.js"></script>
+<script>
+  /* point GitHub links at the repo configured in releases.js */
+  (function () {
+    if (typeof GENESIS_REPO === 'undefined' || GENESIS_REPO.owner === 'yourname') return;
+    document.querySelectorAll('a[href="https://github.com"]').forEach(a => { a.href = GENESIS_GH; });
+    document.querySelectorAll('a[href="https://github.com/"]').forEach(a => { a.href = GENESIS_GH; });
+  })();
+</script>
+<script src="preview.js" defer></script>
+</body>
+</html>
