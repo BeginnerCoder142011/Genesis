@@ -158,8 +158,10 @@
       </ul>
 
       <h3>The five slots</h3>
-      <p>A strong prompt fills most of these. Any slot you leave out is filled by the panel settings, so the
-      prompt and the panel should not disagree.</p>
+      <p>
+        A detailed prompt fills most of these; a vague one fills almost none and the panel takes over. Either is
+        valid — just don't let the prompt and the panel contradict each other.
+      </p>
       <table>
         <thead><tr><th>Slot</th><th>Examples</th><th>Effect</th></tr></thead>
         <tbody>
@@ -183,31 +185,54 @@
         <li><b>Decorate as a second pass.</b> Build the layout first, then run a decorated pass over it. Asking for "beautiful decorated extreme" in one go usually produces a worse layout.</li>
       </ol>
 
-      <h3>Words that do nothing</h3>
+      <h3>Three styles, all valid</h3>
       <p>
-        <code>good</code>, <code>fun</code>, <code>cool</code>, <code>epic</code>, <code>feature-worthy</code> —
-        these carry no parameters. They are not harmful, they just don't move the output. Replace them with a
-        difficulty, a duration or a gadget rule.
+        The prompt does not have a "correct" level of detail. Vague, object-level and extremely specific all
+        work — what changes is how much the panel decides for you.
       </p>
 
-      <h3>Bad vs. good</h3>
-      <div class="prompt-card bad">
-        <div class="pc-bar">✕ vague</div>
-        <pre>make a good level</pre>
+      <table>
+        <thead><tr><th>Style</th><th>Example</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Vague</b></td>
+            <td><code>make it cool, something fast</code></td>
+            <td>Only the mood is read. Difficulty, length, gadgets and version come entirely from the panel. Good when you want a surprise; press Re-roll until you like the seed.</td>
+          </tr>
+          <tr>
+            <td><b>Object-level</b></td>
+            <td><code>spikes every 4 blocks, jump orbs over the gaps, no pads</code></td>
+            <td>Named objects and their relationships are treated as placement rules — what to use, roughly how often, and what to exclude. Exact coordinates are read as intent, not literal positions.</td>
+          </tr>
+          <tr>
+            <td><b>Really specific</b></td>
+            <td><code>harder 2.1 spider section, 18 seconds, two dash orbs, one gravity flip at the end, layout only</code></td>
+            <td>Every clause constrains the output: gamemode, difficulty, length, gadget budget, and mode. Closest to a brief you'd hand another creator.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Examples of each</h3>
+      <div class="prompt-card bad" style="border-color:rgba(155,107,255,.32)">
+        <div class="pc-bar" style="color:#c9b1ff">vague — works</div>
+        <pre>something that feels like a sunrise, easy</pre>
+      </div>
+      <div class="prompt-card bad" style="border-color:rgba(49,227,216,.32)">
+        <div class="pc-bar" style="color:#8ff3ec">object-level — works</div>
+        <pre>spikes every 4 blocks, orbs over each gap, pads only on the second half, hard</pre>
       </div>
       <div class="prompt-card good">
-        <div class="pc-bar">✓ specific</div>
-        <pre>normal-difficulty cube section for the drop, 20 seconds, pads allowed, no orbs</pre>
+        <div class="pc-bar">✓ really specific — works</div>
+        <pre>normal-difficulty cube section for the drop, 20 seconds, pads allowed, no orbs, 2.0 object set</pre>
       </div>
 
-      <div class="prompt-card bad">
-        <div class="pc-bar">✕ object dictation</div>
-        <pre>put a spike at x=120, a yellow orb at x=340, then a 2x speed portal at x=520</pre>
-      </div>
-      <div class="prompt-card good">
-        <div class="pc-bar">✓ shape</div>
-        <pre>hard cube timing section, single jumps followed by a short orb chain, one speed change near the end, 15 seconds</pre>
-      </div>
+      <h3>Words that still do nothing</h3>
+      <p>
+        Pure filler — <code>good</code>, <code>fun</code>, <code>cool</code>, <code>epic</code>,
+        <code>feature-worthy</code> — carries no parameters on its own. That's fine in a vague prompt, because
+        the panel fills the gaps; it just doesn't steer anything. If you want a specific result, replace the
+        filler with a difficulty, a duration or a gadget rule.
+      </p>
 
       <h3>Panel settings the prompt can't override</h3>
       <table>
