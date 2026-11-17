@@ -1,0 +1,113 @@
+# Builds GENESIS for all five platforms and publishes a release with the exact
+# asset names the site expects.
+#
+# The Creao GitHub App cannot write files under .github/workflows/ (no Workflows
+# permission), so this file lives in ci/ — move or upload it to
+# .github/workflows/build.yml in the repo. Then:
+#
+#   git tag v1.0.0 && git push origin v1.0.0
+#
+# On a tag push it builds, renames the artefacts and creates the release. The
+# site's download buttons flip to live as soon as the release exists.
+
+name: Build and publish GENESIS
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to build (e.g. v1.0.0). Leave empty to build only.'
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: build ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    # iOS SDK availability on runners is inconsistent — don't fail the release
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: Win64
+            os: windows-latest
+            asset: genesis-windows-x64.geode
+            experimental: false
+          - target: MacOS
+            os: macos-latest
+            asset: genesis-macos-universal.geode
+            experimental: false
+          - target: Android64
+            os: ubuntu-latest
+            asset: genesis-android64.geode
+            experimental: false
+          - target: Android32
+            os: ubuntu-latest
+            asset: genesis-android32.geode
+            experimental: false
+          - target: iOS
+            os: macos-latest
+            asset: genesis-ios.geode
+            experimental: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build mod
+        id: build
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          # 'given' reads the geode version from mod.json
+          sdk: given
+          path: mod
+          target: ${{ matrix.target }}
+          build-config: RelWithDebInfo
+          use-lto: true
+
+      - name: Rename to the site's asset name
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="$(find "${{ steps.build.outputs.build-output }}" -name '*.geode' | head -n1)"
+          if [ -z "$src" ]; then
+            echo "no .geode produced for ${{ matrix.target }}" >&2
+            exit 1
+          fi
+          mkdir -p dist
+          cp "$src" "dist/${{ matrix.asset }}"
+          ls -l "dist/${{ matrix.asset }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: dist/${{ matrix.asset }}
+          if-no-files-found: error
+
+  release:
+    name: publish release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: List assets
+        run: ls -l dist
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: GENESIS ${{ github.ref_name }}
+          files: dist/*.geode
+          # tags containing a '-' (v1.1.0-beta.1) publish as prereleases
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          generate_release_notes: true
+          fail_on_unmatched_files: false
