@@ -1,0 +1,115 @@
+name: Beta bug report
+description: Report a problem with a GENESIS beta build (GD 2.2091 / Geode 6 alpha)
+title: "[beta] "
+labels: ["beta"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing. The beta runs on **Geometry Dash 2.2091** with a **Geode 6.0.0-alpha** loader —
+        both are prereleases. Please confirm you're actually on that combination before filing, and attach
+        `geode/logs/Geode.log` (plus a crashlog if it crashed).
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Windows
+        - macOS
+        - Android (arm64-v8a)
+        - Android (armeabi-v7a)
+        - iOS
+    validations:
+      required: true
+
+  - type: input
+    id: game
+    attributes:
+      label: Geometry Dash build
+      placeholder: "2.2091"
+    validations:
+      required: true
+
+  - type: input
+    id: geode
+    attributes:
+      label: Geode build
+      description: Exact alpha build, from Geode -> Settings.
+      placeholder: "6.0.0-alpha.2"
+    validations:
+      required: true
+
+  - type: input
+    id: mod
+    attributes:
+      label: GENESIS version
+      placeholder: "1.1.0-beta.1"
+    validations:
+      required: true
+
+  - type: input
+    id: seed
+    attributes:
+      label: Seed
+      description: The seed shown in the panel. This is what makes the bug reproducible.
+      placeholder: "4821"
+
+  - type: textarea
+    id: prompt
+    attributes:
+      label: Prompt used
+      description: Exact text you typed into the panel.
+      render: text
+    validations:
+      required: false
+
+  - type: input
+    id: settings
+    attributes:
+      label: Panel settings
+      description: Version selector, gadget toggles, mode, difficulty.
+      placeholder: "2.2 / orbs+pads / layout / insane"
+
+  - type: textarea
+    id: happened
+    attributes:
+      label: What happened
+      description: One or two sentences. Crash, hang, wrong output, missing objects...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Drag `geode/logs/Geode.log` here, and `geode/crashlogs/*` if the game crashed.
+      render: text
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: I'm on a Geode 6.0.0-alpha build (not stable 5.x)
+          required: true
+        - label: I backed up my saves before testing
+          required: false
+        - label: I attached or pasted the log file
+          required: false
