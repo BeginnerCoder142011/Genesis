@@ -137,10 +137,25 @@
       <div class="eyebrow">Prompt guide</div>
       <h2>How to write a prompt GENESIS understands</h2>
       <p>
-        The prompt is a level brief, not a command list. GENESIS reads it to decide <b>what kind of
-        gameplay</b> to build, in <b>which part of the song</b>. It does not read it as a sequence of
-        object placements — you are describing intent, and the generator handles the objects.
+        <b>You can type any idea in the prompt.</b> A mood, a song moment, a shape, a difficulty, a ruling you
+        want to break — there is no keyword list to memorise and no syntax to get right. Write like you're
+        briefing another creator.
       </p>
+      <p>
+        What GENESIS does with it: the prompt is a level brief, not a command list. It reads the sentence to
+        decide <b>what kind of gameplay</b> to build, in <b>which part of the song</b>. It does not read it as a
+        sequence of object placements — you are describing intent, and the generator handles the objects.
+        Anything you leave out is filled in from the panel settings.
+      </p>
+      <p>Ideas that work as-written, with no extra setup:</p>
+      <ul>
+        <li>"chill cube intro, pads only, no orbs"</li>
+        <li>"something that feels like a sunrise" — difficulty defaults from the panel, the mood steers pacing</li>
+        <li>"fast and angry, 20 seconds, extreme"</li>
+        <li>"spooky cave vibes but keep it easy"</li>
+        <li>"decorate this layout neon purple and cyan, don't touch gameplay"</li>
+        <li>"a spider part that's hard but fair"</li>
+      </ul>
 
       <h3>The five slots</h3>
       <p>A strong prompt fills most of these. Any slot you leave out is filled by the panel settings, so the
@@ -199,10 +214,10 @@
         <thead><tr><th>Setting</th><th>Values</th><th>Behaviour</th></tr></thead>
         <tbody>
           <tr><td><code>Source</code></td><td>Prompt · Song · Both</td><td>"Song" ignores the prompt text and follows song structure only.</td></tr>
-          <tr><td><code>Version</code></td><td>1.0 – 2.2</td><td>Hard filter on the object pool. Always wins over prompt wording.</td></tr>
+          <tr><td><code>Version</code></td><td>1.0 · 1.1 · 1.2 · 1.3 · 1.4 · 1.5 · 1.6 · 1.7 · 1.8 · 1.9 · 2.0 · 2.1 · 2.2</td><td>Hard filter on the object pool — every version is listed, none skipped. Always wins over prompt wording.</td></tr>
           <tr><td><code>Gadgets</code></td><td>Orbs · Pads · Portals · Speed · Teleport</td><td>Disabling a class removes it even if the prompt asks for it.</td></tr>
           <tr><td><code>Mode</code></td><td>Layout · Full decorated</td><td>Layout writes gameplay only; decorated adds design on top.</td></tr>
-          <tr><td><code>Difficulty</code></td><td>Easy → Extreme</td><td>Baseline; a difficulty word in the prompt refines it within one tier.</td></tr>
+          <tr><td><code>Difficulty</code></td><td>Easy · Normal · Hard · Harder · Insane · Extreme</td><td>Baseline; a difficulty word in the prompt refines it within one tier.</td></tr>
           <tr><td><code>Seed</code></td><td>integer</td><td>Same seed + same settings + same song = same level.</td></tr>
         </tbody>
       </table>
@@ -222,6 +237,7 @@
         <button data-filter="Easy">Easy</button>
         <button data-filter="Normal">Normal</button>
         <button data-filter="Hard">Hard</button>
+        <button data-filter="Harder">Harder</button>
         <button data-filter="Insane">Insane</button>
         <button data-filter="Extreme">Extreme</button>
         <button data-filter="Song">Song-driven</button>
@@ -296,6 +312,28 @@
         </div>
       </article>
 
+
+      <!-- Harder -->
+      <article class="ex show" data-diff="Harder">
+        <div class="ex-head">
+          <h4>Gravity-flip ball with pads</h4>
+          <span class="ex-pill diff">Harder</span><span class="ex-pill ver">2.0</span>
+        </div>
+        <div class="ex-body">
+          <div class="prompt-card good" style="margin:0">
+            <div class="pc-bar">prompt<button class="pc-copy">copy</button></div>
+            <pre>harder 2.0 section, cube into ball with two gravity flips, pads on the ceiling run, 18 seconds, no portals out</pre>
+          </div>
+          <div class="ex-settings">
+            <span>VERSION <b>2.0</b></span><span>MODE <b>Layout</b></span><span>DIFF <b>Harder</b></span>
+            <span>PADS <b>on</b></span><span>ORBS <b>off</b></span>
+          </div>
+          <p><b>What you get:</b> a cube run into a ball portal, two gravity flips spaced so the ceiling run is readable,
+          orange pads placed to keep the ball moving through the flips, and an exit back to cube.</p>
+          <p><b>Why it works:</b> it names the transitions instead of the objects — "two gravity flips" is a shape the
+          generator can lay out, where "put a gravity portal at x=480" is not.</p>
+        </div>
+      </article>
       <!-- Insane -->
       <article class="ex show" data-diff="Insane">
         <div class="ex-head">
@@ -399,11 +437,18 @@
       </p>
 
       <table>
-        <thead><tr><th>Version</th><th>Gamemodes available</th><th>What the generator adds</th></tr></thead>
+        <thead><tr><th>Version</th><th>Gamemodes available</th><th>What the generator draws from</th></tr></thead>
         <tbody>
           <tr><td><b>1.0</b></td><td>Cube, ship</td><td>Classic geometry only: spikes, blocks, pads, gravity and speed portals. No orbs, no colour channels, no triggers beyond the basics.</td></tr>
-          <tr><td><b>1.2</b></td><td>Cube, ship, ball</td><td>Ball sections and gravity-flip gameplay become available.</td></tr>
-          <tr><td><b>1.9</b></td><td>+ wave</td><td>Wave corridors, colour channels for simple decoration, custom-music-era level pacing.</td></tr>
+          <tr><td><b>1.1</b></td><td>Cube, ship</td><td>The 1.1 object pool, including the mirror portal — no later objects leak in.</td></tr>
+          <tr><td><b>1.2</b></td><td>+ ball</td><td>Ball sections and gravity-flip gameplay become available.</td></tr>
+          <tr><td><b>1.3</b></td><td>Cube, ship, ball</td><td>Objects and triggers as shipped in 1.3 — nothing from later updates.</td></tr>
+          <tr><td><b>1.4</b></td><td>Cube, ship, ball</td><td>Objects and triggers as shipped in 1.4.</td></tr>
+          <tr><td><b>1.5</b></td><td>Cube, ship, ball</td><td>Objects and triggers as shipped in 1.5.</td></tr>
+          <tr><td><b>1.6</b></td><td>Cube, ship, ball</td><td>Objects and triggers as shipped in 1.6.</td></tr>
+          <tr><td><b>1.7</b></td><td>Cube, ship, ball</td><td>Objects and triggers as shipped in 1.7.</td></tr>
+          <tr><td><b>1.8</b></td><td>Cube, ship, ball</td><td>Objects and triggers as shipped in 1.8.</td></tr>
+          <tr><td><b>1.9</b></td><td>+ wave</td><td>Wave corridors, colour channels for simple decoration, the 1.9 object pool.</td></tr>
           <tr><td><b>2.0</b></td><td>+ robot</td><td>Robot jump arcs, user coins, move triggers and the first 2.x decoration vocabulary.</td></tr>
           <tr><td><b>2.1</b></td><td>+ spider</td><td>Spider teleport hops, dash orbs, red jump pads, more ring and pad variants.</td></tr>
           <tr><td><b>2.2</b></td><td>+ swing, jetpack</td><td>Swing and jetpack gameplay, camera controls, post-processing, platformer-aware geometry, the full decoration set.</td></tr>
@@ -715,10 +760,10 @@ const GENESIS_RELEASES = [
         <thead><tr><th>Setting</th><th>Values</th><th>Default</th></tr></thead>
         <tbody>
           <tr><td><code>Source</code></td><td>Prompt · Song library · Both</td><td>Prompt</td></tr>
-          <tr><td><code>Version</code></td><td>1.0 · 1.9 · 2.0 · 2.1 · 2.2</td><td>2.2</td></tr>
+          <tr><td><code>Version</code></td><td>1.0 · 1.1 · 1.2 · 1.3 · 1.4 · 1.5 · 1.6 · 1.7 · 1.8 · 1.9 · 2.0 · 2.1 · 2.2</td><td>2.2</td></tr>
           <tr><td><code>Gadgets</code></td><td>Orbs · Pads · Portals · Speed · Teleport</td><td>Orbs, Pads, Portals</td></tr>
           <tr><td><code>Mode</code></td><td>Layout · Full decorated</td><td>Layout</td></tr>
-          <tr><td><code>Difficulty</code></td><td>Easy · Normal · Hard · Insane · Extreme</td><td>Insane</td></tr>
+          <tr><td><code>Difficulty</code></td><td>Easy · Normal · Hard · Harder · Insane · Extreme</td><td>Insane</td></tr>
           <tr><td><code>Seed</code></td><td>any integer</td><td>random per pass</td></tr>
           <tr><td><code>Tempo / offset</code></td><td>BPM + seconds</td><td>read from song</td></tr>
         </tbody>
