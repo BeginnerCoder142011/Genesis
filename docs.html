@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GENESIS Docs — Prompt guide, examples &amp; troubleshooting</title>
+<meta name="description" content="Documentation for GENESIS: how to write prompts that generate good Geometry Dash levels, worked examples per difficulty and game version, and troubleshooting for the in-editor panel." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="glow a"></div>
+<div class="glow b"></div>
+
+<header id="site-header">
+  <div class="wrap nav">
+    <a href="index.html" class="brand">
+      <span class="logo">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z" fill="#08080f"/></svg>
+      </span>
+      GENESIS
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#preview">Live preview</a>
+      <a href="docs.html" style="color:var(--txt)">Docs</a>
+      <a href="download.html#changelog">Changelog</a>
+      <a href="download.html">Download</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn ghost" href="download.html#history">Versions</a>
+      <a class="btn primary" href="download.html">Download</a>
+    </div>
+  </div>
+</header>
+
+<section class="wrap page-hero" style="padding-bottom:0">
+  <div class="crumbs"><a href="index.html">Home</a><span>/</span>Docs</div>
+  <h1>GENESIS <span class="grad">documentation</span></h1>
+  <p class="lead" style="margin-top:16px">
+    How the panel works, how to write prompts that produce something playable, worked examples per
+    difficulty and game version, and fixes for the things that go wrong inside the editor.
+  </p>
+</section>
+
+<div class="wrap docs-wrap">
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="docs-nav" id="docs-nav">
+    <h5>Contents</h5>
+    <a href="#getting-started" class="on">Getting started</a>
+    <a href="#prompts">Writing prompts</a>
+    <a href="#examples">Worked examples</a>
+    <a href="#versions">Object versions</a>
+    <a href="#troubleshooting">Troubleshooting</a>
+    <div class="sep"></div>
+    <a href="#releasing">Publishing releases</a>
+    <a href="#reference">Reference</a>
+  </aside>
+
+  <!-- ================= CONTENT ================= -->
+  <main class="doc">
+
+    <!-- ---------- GETTING STARTED ---------- -->
+    <section id="getting-started">
+      <div class="eyebrow">Getting started</div>
+      <h2>What you need before the button appears</h2>
+      <p>
+        GENESIS is a Geode mod, so Geode has to be installed and working first. The
+        <code>Generate</code> button only exists inside the <b>Level Editor</b> — there is nothing to click
+        in the main menu.
+      </p>
+
+      <table>
+        <thead><tr><th>Requirement</th><th>Supported</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><b>Geometry Dash</b></td><td class="ok">2.2081</td><td>Stable target. 2.2091 needs the Geode 6 beta line.</td></tr>
+          <tr><td><b>Geode</b></td><td class="ok">v5.0.0+</td><td>Tested against v5.11.2, the current stable release for 2.2081.</td></tr>
+          <tr><td><b>GENESIS</b></td><td class="ok">v1.4.2</td><td>All platforms except iOS (experimental).</td></tr>
+          <tr><td><b>Song</b></td><td class="ok">Recommended</td><td>An official track or anything in your saved music library — this is what the level syncs to.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Install</h3>
+      <ol>
+        <li>Download the build for your platform from the <a href="download.html">download page</a>.</li>
+        <li>In game, open the Geode menu → <b>Install from file</b> and pick the <code>.geode</code> you downloaded.</li>
+        <li>Or drop the file into your mods folder (paths below) and restart the game.</li>
+        <li>Open <b>Create Level</b> → the editor. GENESIS adds a <b>Generate</b> button to the toolbar.</li>
+      </ol>
+
+      <div class="paths">
+        <div class="path-row">
+          <b>Windows</b>
+          <code>C:\Program Files (x86)\Steam\steamapps\common\Geometry Dash\geode\mods</code>
+          <button data-copy="C:\Program Files (x86)\Steam\steamapps\common\Geometry Dash\geode\mods">copy</button>
+        </div>
+        <div class="path-row">
+          <b>macOS</b>
+          <code>~/Library/Application Support/Steam/steamapps/common/Geometry Dash/Geometry Dash.app/Contents/geode/mods</code>
+          <button data-copy="~/Library/Application Support/Steam/steamapps/common/Geometry Dash/Geometry Dash.app/Contents/geode/mods">copy</button>
+        </div>
+        <div class="path-row">
+          <b>Android</b>
+          <code>/storage/emulated/0/Android/media/com.geode.launcher/game/geode/mods</code>
+          <button data-copy="/storage/emulated/0/Android/media/com.geode.launcher/game/geode/mods">copy</button>
+        </div>
+        <div class="path-row">
+          <b>iOS</b>
+          <code>Files › On My iPhone › Geode › game › geode › mods</code>
+          <button data-copy="Files > On My iPhone > Geode > game > geode > mods">copy</button>
+        </div>
+      </div>
+
+      <div class="callout">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8.5h.01"/></svg>
+        <div>The button lives in the editor's top toolbar area, next to the other editor tools. If you are on a
+        narrow phone screen it collapses into the toolbar row — see
+        <a href="#troubleshooting">troubleshooting</a>.</div>
+      </div>
+
+      <h3>Your first generation</h3>
+      <ol>
+        <li>Type a prompt like <code>easy cube intro, 20 seconds, no orbs</code>.</li>
+        <li>Set <b>Version</b> to the object set you want, and <b>Difficulty</b> to Easy.</li>
+        <li>Pick a song from your library so the beat grid is real, not assumed.</li>
+        <li>Press <b>Generate</b>. The level is written from your cursor forward.</li>
+        <li>Playtest. Not right? Press <b>Re-roll</b> — same settings, new seed. Or <kbd>Ctrl</kbd>+<kbd>Z</kbd> and refine the prompt.</li>
+      </ol>
+    </section>
+
+    <!-- ---------- PROMPTS ---------- -->
+    <section id="prompts">
+      <div class="eyebrow">Prompt guide</div>
+      <h2>How to write a prompt GENESIS understands</h2>
+      <p>
+        The prompt is a level brief, not a command list. GENESIS reads it to decide <b>what kind of
+        gameplay</b> to build, in <b>which part of the song</b>. It does not read it as a sequence of
+        object placements — you are describing intent, and the generator handles the objects.
+      </p>
+
+      <h3>The five slots</h3>
+      <p>A strong prompt fills most of these. Any slot you leave out is filled by the panel settings, so the
+      prompt and the panel should not disagree.</p>
+      <table>
+        <thead><tr><th>Slot</th><th>Examples</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td><b>1. Gamemode</b></td><td>cube · ship · ball · UFO · wave · robot · spider · swing · mixed</td><td>Picks the movement model and the obstacle vocabulary.</td></tr>
+          <tr><td><b>2. Difficulty</b></td><td>easy · normal · hard · insane · extreme</td><td>Sets gap sizes, timing windows and gadget density.</td></tr>
+          <tr><td><b>3. Placement in the song</b></td><td>intro · build · drop · breakdown · outro · "after 0:40"</td><td>Decides where it writes and what the structure looks like.</td></tr>
+          <tr><td><b>4. Length</b></td><td>"15 seconds" · "two drops" · "8 sections"</td><td>How far forward the pass commits objects.</td></tr>
+          <tr><td><b>5. Gadget policy</b></td><td>"no orbs" · "pads only" · "one dash orb at the end"</td><td>Constrains orbs, pads, portals and speed changes.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Rules that actually change the output</h3>
+      <ol>
+        <li><b>Name the gamemode.</b> "Hard" alone gives you cube. "Hard wave" gives you a wave corridor.</li>
+        <li><b>Say where in the song.</b> The same prompt at the intro and at the drop produce different density — the drop is always busier.</li>
+        <li><b>Give a duration.</b> Without one, the pass runs to the end of the section it detected, which can be much longer than you wanted.</li>
+        <li><b>Describe shape, not objects.</b> "short hops with pads" works. "a spike at x=120 then an orb at x=340" is ignored — object coordinates are not a prompt.</li>
+        <li><b>One idea per prompt.</b> A prompt that asks for cube → ship → spider → wave in one sentence gets a muddled blend. Generate them one at a time.</li>
+        <li><b>Keep the prompt consistent with the panel.</b> If the panel says <code>1.9</code>, don't ask for a swing portal — the version filter drops objects that didn't exist yet, and you'll get a simpler level than you described.</li>
+        <li><b>Iterate with the seed, not the wording.</b> If the structure is right but the patterns are dull, press Re-roll instead of rewriting the prompt.</li>
+        <li><b>Decorate as a second pass.</b> Build the layout first, then run a decorated pass over it. Asking for "beautiful decorated extreme" in one go usually produces a worse layout.</li>
+      </ol>
+
+      <h3>Words that do nothing</h3>
+      <p>
+        <code>good</code>, <code>fun</code>, <code>cool</code>, <code>epic</code>, <code>feature-worthy</code> —
+        these carry no parameters. They are not harmful, they just don't move the output. Replace them with a
+        difficulty, a duration or a gadget rule.
+      </p>
+
+      <h3>Bad vs. good</h3>
+      <div class="prompt-card bad">
+        <div class="pc-bar">✕ vague</div>
+        <pre>make a good level</pre>
+      </div>
+      <div class="prompt-card good">
+        <div class="pc-bar">✓ specific</div>
+        <pre>normal-difficulty cube section for the drop, 20 seconds, pads allowed, no orbs</pre>
+      </div>
+
+      <div class="prompt-card bad">
+        <div class="pc-bar">✕ object dictation</div>
+        <pre>put a spike at x=120, a yellow orb at x=340, then a 2x speed portal at x=520</pre>
+      </div>
+      <div class="prompt-card good">
+        <div class="pc-bar">✓ shape</div>
+        <pre>hard cube timing section, single jumps followed by a short orb chain, one speed change near the end, 15 seconds</pre>
+      </div>
+
+      <h3>Panel settings the prompt can't override</h3>
+      <table>
+        <thead><tr><th>Setting</th><th>Values</th><th>Behaviour</th></tr></thead>
+        <tbody>
+          <tr><td><code>Source</code></td><td>Prompt · Song · Both</td><td>"Song" ignores the prompt text and follows song structure only.</td></tr>
+          <tr><td><code>Version</code></td><td>1.0 – 2.2</td><td>Hard filter on the object pool. Always wins over prompt wording.</td></tr>
+          <tr><td><code>Gadgets</code></td><td>Orbs · Pads · Portals · Speed · Teleport</td><td>Disabling a class removes it even if the prompt asks for it.</td></tr>
+          <tr><td><code>Mode</code></td><td>Layout · Full decorated</td><td>Layout writes gameplay only; decorated adds design on top.</td></tr>
+          <tr><td><code>Difficulty</code></td><td>Easy → Extreme</td><td>Baseline; a difficulty word in the prompt refines it within one tier.</td></tr>
+          <tr><td><code>Seed</code></td><td>integer</td><td>Same seed + same settings + same song = same level.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- EXAMPLES ---------- -->
+    <section id="examples">
+      <div class="eyebrow">Worked examples</div>
+      <h2>Prompts you can paste, per difficulty and version</h2>
+      <p>
+        Each example lists the exact prompt, the panel settings to pair with it, and what the generator
+        actually commits. Copy the prompt, set the settings, re-roll until you like the seed.
+      </p>
+
+      <div class="tabs" id="ex-tabs">
+        <button class="on" data-filter="all">All</button>
+        <button data-filter="Easy">Easy</button>
+        <button data-filter="Normal">Normal</button>
+        <button data-filter="Hard">Hard</button>
+        <button data-filter="Insane">Insane</button>
+        <button data-filter="Extreme">Extreme</button>
+        <button data-filter="Song">Song-driven</button>
+        <button data-filter="Deco">Decoration</button>
+      </div>
+
+      <!-- Easy -->
+      <article class="ex show" data-diff="Easy">
+        <div class="ex-head">
+          <h4>Classic cube intro</h4>
+          <span class="ex-pill diff">Easy</span><span class="ex-pill ver">1.9</span>
+        </div>
+        <div class="ex-body">
+          <div class="prompt-card good" style="margin:0">
+            <div class="pc-bar">prompt<button class="pc-copy">copy</button></div>
+            <pre>easy cube section for the intro of the song, 20 seconds, no orbs, single jumps and short gaps only</pre>
+          </div>
+          <div class="ex-settings">
+            <span>VERSION <b>1.9</b></span><span>MODE <b>Layout</b></span><span>DIFF <b>Easy</b></span>
+            <span>ORBS <b>off</b></span><span>PADS <b>on</b></span><span>PORTALS <b>off</b></span>
+          </div>
+          <p><b>What you get:</b> roughly 90 blocks of level at a steady 1× speed — flat runs, single
+          spikes, low blocks you hop onto, and gaps wide enough to land and re-jump without practice.
+          No air control, no orbs to time.</p>
+          <p><b>Why it works:</b> it names the section (intro), fixes a duration, and removes the gadget class
+          that would make Easy harder than it should be.</p>
+        </div>
+      </article>
+
+      <!-- Normal -->
+      <article class="ex show" data-diff="Normal">
+        <div class="ex-head">
+          <h4>Cube into a short ship corridor</h4>
+          <span class="ex-pill diff">Normal</span><span class="ex-pill ver">2.0</span>
+        </div>
+        <div class="ex-body">
+          <div class="prompt-card good" style="margin:0">
+            <div class="pc-bar">prompt<button class="pc-copy">copy</button></div>
+            <pre>normal-difficulty build-up, 8 seconds of cube into a 6-second ship corridor, then back to cube, 2.0 object set, orbs and pads on</pre>
+          </div>
+          <div class="ex-settings">
+            <span>VERSION <b>2.0</b></span><span>MODE <b>Layout</b></span><span>DIFF <b>Normal</b></span>
+            <span>ORBS <b>on</b></span><span>PORTALS <b>on</b></span>
+          </div>
+          <p><b>What you get:</b> a cube run, a ship portal, a corridor sized for a normal player (roughly
+          three grid units of clearance at the tightest point), an exit portal back to cube, and a landing
+          stretch wide enough that you don't die on transition.</p>
+          <p><b>Why it works:</b> two gamemodes, both named with their own durations, plus an explicit object
+          set. Anything more than two modes in one prompt tends to blend.</p>
+        </div>
+      </article>
+
+      <!-- Hard -->
+      <article class="ex show" data-diff="Hard">
+        <div class="ex-head">
+          <h4>Spider platform hops</h4>
+          <span class="ex-pill diff">Hard</span><span class="ex-pill ver">2.1</span>
+        </div>
+        <div class="ex-body">
+          <div class="prompt-card good" style="margin:0">
+            <div class="pc-bar">prompt<button class="pc-copy">copy</button></div>
+            <pre>hard 2.1 spider section at the drop, short teleport hops across floating platforms, one dash orb near the end, 15 seconds, no portals</pre>
+          </div>
+          <div class="ex-settings">
+            <span>VERSION <b>2.1</b></span><span>MODE <b>Layout</b></span><span>DIFF <b>Hard</b></span>
+            <span>ORBS <b>on</b></span><span>PORTALS <b>off</b></span><span>TELEPORT <b>off</b></span>
+          </div>
+          <p><b>What you get:</b> a drop-density section with the spider entered by portal from your cursor,
+          platforms spaced so each hop is one input, and a single dash orb placed on the longest gap.</p>
+          <p><b>Why it works:</b> it asks for <b>one</b> dash orb rather than "lots of orbs", and switches off
+          the portal class so the section doesn't get chopped up by unrequested gamemode changes.</p>
+        </div>
+      </article>
+
+      <!-- Insane -->
+      <article class="ex show" data-diff="Insane">
+        <div class="ex-head">
+          <h4>Wave at the drop, tight but constant</h4>
+          <span class="ex-pill diff">Insane</span><span class="ex-pill ver">2.2</span>
+        </div>
+        <div class="ex-body">
+          <div class="prompt-card good" style="margin:0">
+            <div class="pc-bar">prompt<button class="pc-copy">copy</button></div>
+            <pre>insane 2.2 wave at the drop, tight corridor but constant height changes, 12 seconds, no portals, no orbs, layout mode, seed 4821</pre>
+          </div>
+          <div class="ex-settings">
+            <span>VERSION <b>2.2</b></span><span>MODE <b>Layout</b></span><span>DIFF <b>Insane</b></span>
+            <span>SEED <b>4821</b></span><span>GADGETS <b>none</b></span>
+          </div>
+          <p><b>What you get:</b> a wave corridor that shifts vertically through the section instead of
+          holding one line — the "constant height changes" phrase is what produces the variation.</p>
+          <p><b>Why it works:</b> it pins the seed, so you can re-run the exact same level after tweaking
+          one word and see precisely what that word changed. This is the fastest way to learn the prompt
+          vocabulary.</p>
+        </div>
+      </article>
+
+      <!-- Extreme -->
+      <article class="ex show" data-diff="Extreme">
+        <div class="ex-head">
+          <h4>Straight fly into 2× cube timings</h4>
+          <span class="ex-pill diff">Extreme</span><span class="ex-pill ver">2.2</span>
+        </div>
+        <div class="ex-body">
+          <div class="prompt-card good" style="margin:0">
+            <div class="pc-bar">prompt<button class="pc-copy">copy</button></div>
+            <pre>extreme 2.2 mixed section: 4 seconds of straight fly, then cube timings on 2x speed, 10 seconds total, decoration off</pre>
+          </div>
+          <div class="ex-settings">
+            <span>VERSION <b>2.2</b></span><span>MODE <b>Layout</b></span><span>DIFF <b>Extreme</b></span>
+            <span>SPEED <b>on</b></span><span>PORTALS <b>on</b></span>
+          </div>
+          <p><b>What you get:</b> a wide-open straight-fly window, then a speed portal to 2× and a cube
+          sequence of single-frame-readable timings. The playability guard will re-roll anything it can
+          prove is impossible, so expect the seed to shift a little from the first draft.</p>
+          <p><b>Why it works:</b> straight fly is a shape, not a gadget — naming it explicitly is the only way
+          to guarantee the corridor stays open with no orbs in it.</p>
+        </div>
+      </article>
+
+      <!-- Song-driven -->
+      <article class="ex show" data-diff="Song">
+        <div class="ex-head">
+          <h4>Follow the song, don't over-specify</h4>
+          <span class="ex-pill diff">Song</span><span class="ex-pill ver">any</span>
+        </div>
+        <div class="ex-body">
+          <div class="prompt-card good" style="margin:0">
+            <div class="pc-bar">prompt<button class="pc-copy">copy</button></div>
+            <pre>follow the song structure, hard difficulty, orbs and pads on, layout only</pre>
+          </div>
+          <div class="ex-settings">
+            <span>SOURCE <b>Song library</b></span><span>SONG <b>Jumper · 180 BPM</b></span>
+            <span>DIFF <b>Hard</b></span><span>MODE <b>Layout</b></span>
+          </div>
+          <p><b>What you get:</b> sections sized to the actual track — a sparse intro, a busier build, a dense
+          drop — with every obstacle landing on the beat grid rather than on a fixed interval.</p>
+          <p><b>Why it works:</b> with song sync on, the prompt's job is only difficulty and gadget policy.
+          Asking for a specific length here fights the song; leave duration out and let the structure be
+          detected.</p>
+        </div>
+      </article>
+
+      <!-- Decoration -->
+      <article class="ex show" data-diff="Deco">
+        <div class="ex-head">
+          <h4>Decoration-only pass over a finished layout</h4>
+          <span class="ex-pill diff">Deco</span><span class="ex-pill ver">2.2</span>
+        </div>
+        <div class="ex-body">
+          <div class="prompt-card good" style="margin:0">
+            <div class="pc-bar">prompt<button class="pc-copy">copy</button></div>
+            <pre>decorate the existing layout only, no gameplay changes, neon purple and cyan palette, pulses on every beat, ground and background styling</pre>
+          </div>
+          <div class="ex-settings">
+            <span>VERSION <b>2.2</b></span><span>MODE <b>Full decorated</b></span><span>DIFF <b>keep current</b></span>
+          </div>
+          <p><b>What you get:</b> block design on the geometry that's already there, ground and background
+          styling, pulse triggers on the beat, and camera/move work where the section is empty enough to
+          support it. No obstacle is added or moved.</p>
+          <p><b>Why it works:</b> "no gameplay changes" is the phrase that keeps the pass decorative. Palette
+          names are read as colour intent, not exact hex values.</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- ---------- VERSIONS ---------- -->
+    <section id="versions">
+      <div class="eyebrow">Object versions</div>
+      <h2>What each version selector actually changes</h2>
+      <p>
+        The version selector is a hard filter on the object pool. GENESIS will only ever place objects,
+        gamemodes and triggers that existed in the update you pick — so a 1.9 level never contains a
+        swing portal, and a 1.7 level never contains spider pads.
+      </p>
+
+      <table>
+        <thead><tr><th>Version</th><th>Gamemodes available</th><th>What the generator adds</th></tr></thead>
+        <tbody>
+          <tr><td><b>1.0</b></td><td>Cube, ship</td><td>Classic geometry only: spikes, blocks, pads, gravity and speed portals. No orbs, no colour channels, no triggers beyond the basics.</td></tr>
+          <tr><td><b>1.2</b></td><td>Cube, ship, ball</td><td>Ball sections and gravity-flip gameplay become available.</td></tr>
+          <tr><td><b>1.9</b></td><td>+ wave</td><td>Wave corridors, colour channels for simple decoration, custom-music-era level pacing.</td></tr>
+          <tr><td><b>2.0</b></td><td>+ robot</td><td>Robot jump arcs, user coins, move triggers and the first 2.x decoration vocabulary.</td></tr>
+          <tr><td><b>2.1</b></td><td>+ spider</td><td>Spider teleport hops, dash orbs, red jump pads, more ring and pad variants.</td></tr>
+          <tr><td><b>2.2</b></td><td>+ swing, jetpack</td><td>Swing and jetpack gameplay, camera controls, post-processing, platformer-aware geometry, the full decoration set.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout warn">
+        <svg viewBox="0 0 24 24"><path d="M12 9v4m0 3h.01"/><path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        <div><b>Mismatch is silent.</b> If your prompt asks for something the selected version doesn't have,
+        GENESIS drops it rather than erroring. A "swing part" on 1.9 becomes a cube part with no warning —
+        always check the version chip before blaming the prompt.</div>
+      </div>
+
+      <h3>Choosing a version for a real level</h3>
+      <ul>
+        <li><b>Authentic classic levels:</b> pick 1.0–1.8 and keep decoration off. The restriction is the point.</li>
+        <li><b>Modern gameplay with a 2.1 look:</b> 2.1 is the sweet spot — spider, dash orbs and the first proper decoration tools.</li>
+        <li><b>Full decoration, camera work, platformer ideas:</b> 2.2 only. Everything below it lacks the triggers.</li>
+        <li><b>Matching an update's contest:</b> select the exact version the contest targets, then leave it alone while you iterate.</li>
+      </ul>
+    </section>
+
+    <!-- ---------- TROUBLESHOOTING ---------- -->
+    <section id="troubleshooting">
+      <div class="eyebrow">Troubleshooting</div>
+      <h2>When the panel misbehaves</h2>
+      <p>Work down this list in order — the first four cover almost every report.</p>
+
+      <details class="acc" open>
+        <summary>There is no Generate button in the editor</summary>
+        <div class="acc-body">
+          <p>In order of likelihood:</p>
+          <ul>
+            <li>The mod is installed but <b>not enabled</b>. Open the Geode menu → Installed → check GENESIS is on and not showing a version warning.</li>
+            <li>You are on <b>GD 2.2091</b> with stable Geode (v5.x). Stable Geode only supports 2.2081; GENESIS targets 2.2081. Either downgrade GD or use the Geode 6 beta line with the matching GENESIS beta build.</li>
+            <li>The mod failed to load at startup. Check <code>Geode.log</code> (see below) for a line mentioning GENESIS.</li>
+            <li>You're looking in the main menu. The button is <b>editor-only</b>.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>Geode shows the mod as unsupported / won't install</summary>
+        <div class="acc-body">
+          <p>Geode refuses mods whose <code>gd</code> target doesn't match your game build. GENESIS declares
+          <code>2.2081</code> for win, mac, android and ios. If your game is on a different build, the mod
+          isn't installable until a build for that version exists.</p>
+          <p>On Android, an <b>ABI mismatch</b> looks similar: a 64-bit package on a 32-bit-only device (or the
+          reverse) fails to load. Use the ABI toggle on the download page to get the right file.</p>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>Game crashes on launch, or Geode itself is broken</summary>
+        <div class="acc-body">
+          <p>Every Geometry Dash update breaks Geode until it's updated. If the game crashes before the menu,
+          start in <b>Safe Mode</b>, which loads no mods at all:</p>
+          <ul>
+            <li>Windows / macOS: hold <kbd>Shift</kbd> while launching and keep holding until the game has loaded.</li>
+            <li>Android: press and hold the Launch button in the Geode app.</li>
+          </ul>
+          <p>If it boots in Safe Mode, the culprit is a mod — enable them in halves to find it. If it crashes even
+          in Safe Mode, the Geode installation is broken and needs reinstalling for your exact GD version.</p>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>The panel opens but Generate does nothing</summary>
+        <div class="acc-body">
+          <ul>
+            <li><b>No song in the level.</b> Song sync needs a track — pick one from your saved library, or use Prompt-only mode. An empty song slot with "Song" as the source produces nothing.</li>
+            <li><b>Object limit.</b> Levels have a hard object cap; if the level is nearly full, the pass can't commit. Check the object counter in the editor.</li>
+            <li><b>Cursor at a weird position.</b> Generation writes from the cursor forward; if the cursor is far past your content, the level grows off-screen. Scroll to where you want it.</li>
+            <li><b>Prompt conflicts with the panel.</b> A prompt that only asks for objects the selected version lacks (e.g. swing on 1.9) can resolve to nothing. Switch the version up or change the prompt.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>Everything vanished after I pressed undo</summary>
+        <div class="acc-body">
+          <p>That's by design. Each generation pass commits as a <b>single undo entry</b>, so one
+          <kbd>Ctrl</kbd>+<kbd>Z</kbd> removes the whole attempt rather than 900 individual objects. If you
+          wanted to keep part of it, redo, then delete the objects you don't want by hand.</p>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>Sync is off — obstacles don't line up with the beat</summary>
+        <div class="acc-body">
+          <ul>
+            <li>The song's BPM in the panel is wrong. Set it manually to the track's real BPM; GENESIS uses that value for the grid.</li>
+            <li>The track has a lead-in. Use the offset field to shift the grid so the first beat lands at 0:00.</li>
+            <li>The song was replaced after generation. Regenerate — existing objects keep the old grid.</li>
+            <li>Custom Newgrounds songs that failed to download fall back to a default tempo. Re-download the song from the level's song slot.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>Decoration pass produces gaps or missing visuals</summary>
+        <div class="acc-body">
+          <ul>
+            <li>Decorated mode uses more object slots than layout mode. On a nearly-full level it will skip decoration rather than overwrite gameplay.</li>
+            <li>On iOS the decoration pass is the least-tested part of the mod — see the experimental note on the download page.</li>
+            <li>Camera and post-processing triggers need 2.2. Select 2.2 and re-run the pass.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>iOS: the mod doesn't show up after installing</summary>
+        <div class="acc-body">
+          <ul>
+            <li>Keep the downloaded <b>filename exactly as is</b>. Renamed <code>.geode</code> files are not loaded on iOS.</li>
+            <li>Install by sharing the file from Files to Geode, or place it in <code>On My iPhone › Geode › game › geode › mods</code>.</li>
+            <li>Geode on iOS is experimental — make sure your loader is the one that matches your game build.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>Where are the logs?</summary>
+        <div class="acc-body">
+          <p>Everything useful for a bug report lives in the <code>geode</code> folder next to your mods:</p>
+          <ul>
+            <li><code>geode/logs/Geode.log</code> — the main log, including mod load errors.</li>
+            <li><code>geode/crashlogs/</code> — one file per crash, with the stack trace.</li>
+          </ul>
+          <p>Attach both to an issue. A report with the log is usually fixed in a day; a report without one
+          usually isn't.</p>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>The panel is cut off on my phone</summary>
+        <div class="acc-body">
+          <p>The panel scales with the game's UI; on very small screens or with a large UI scale it can clip at
+          the bottom. Lower the UI scale in GD settings, or rotate to landscape. Landscape is the supported
+          orientation for generation.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ---------- RELEASING ---------- -->
+    <section id="releasing">
+      <div class="eyebrow">Publishing</div>
+      <h2>Making the download buttons work</h2>
+      <p>
+        The download page doesn't hardcode anything — it reads <code>releases.js</code>. A button works when
+        three things line up: the repo in <code>GENESIS_REPO</code>, the <b>tag</b> on the release, and the
+        <b>exact asset filename</b> in that release.
+      </p>
+
+      <h3>1. Asset naming</h3>
+      <p>Build each platform, then upload with these names (they're what <code>releases.js</code> expects):</p>
+      <table>
+        <thead><tr><th>Platform</th><th>Asset filename</th><th>Build target</th></tr></thead>
+        <tbody>
+          <tr><td>Windows</td><td><code>genesis-windows-x64.geode</code></td><td>Win64</td></tr>
+          <tr><td>macOS</td><td><code>genesis-macos-universal.geode</code></td><td>MacOS (arm64 + x86_64)</td></tr>
+          <tr><td>Android 64</td><td><code>genesis-android64.geode</code></td><td>Android64</td></tr>
+          <tr><td>Android 32</td><td><code>genesis-android32.geode</code></td><td>Android32</td></tr>
+          <tr><td>iOS</td><td><code>genesis-ios.geode</code></td><td>iOS</td></tr>
+        </tbody>
+      </table>
+
+      <h3>2. Create the release</h3>
+      <div class="code">
+        <div class="code-bar"><span class="ed-dot r"></span><span class="ed-dot y"></span><span class="ed-dot g"></span><span style="margin-left:8px">terminal</span></div>
+<pre>gh release create v1.0.0 \
+  build-win/genesis-windows-x64.geode \
+  build-mac/genesis-macos-universal.geode \
+  build-android64/genesis-android64.geode \
+  build-android32/genesis-android32.geode \
+  build-ios/genesis-ios.geode \
+  --title "GENESIS v1.0.0" \
+  --notes-file CHANGELOG.md</pre>
+      </div>
+      <p>That produces URLs the site already knows how to build:</p>
+      <div class="code">
+        <div class="code-bar"><span style="margin-left:2px">assets</span></div>
+<pre>https://github.com/BeginnerCoder142011/Genesis/releases/download/v1.0.0/genesis-windows-x64.geode
+https://github.com/BeginnerCoder142011/Genesis/releases/download/v1.0.0/genesis-android64.geode</pre>
+      </div>
+
+      <h3>3. Point the site at your repo</h3>
+      <div class="code">
+        <div class="code-bar"><span style="margin-left:2px">releases.js</span></div>
+<pre>const GENESIS_REPO = {
+  owner: 'BeginnerCoder142011',
+  repo: 'Genesis'
+};
+
+const GENESIS_RELEASES = [
+  {
+    version: '1.1.0',
+    tag: 'v1.1.0',
+    date: '2026-12-01',
+    channel: 'stable',
+    geode: '5.0.0',
+    gd: '2.2081',
+    latest: true,
+    assets: {
+      windows: { file: 'genesis-windows-x64.geode', size: '1.2 MB', arch: 'Win64 · x64' },
+      /* macos, android, android32, ios ... */
+    },
+    changes: [ { k: '+', text: 'What changed.' } ]
+  }
+];</pre>
+      </div>
+      <p>
+        Newest release first. The <code>latest: true</code> flag drives the changelog badge, the hero version
+        pill and the big download card; every entry in the array becomes a row in the version history table.
+      </p>
+
+      <div class="callout danger">
+        <svg viewBox="0 0 24 24"><path d="M12 3 4 7v6c0 5 3.5 7.5 8 8 4.5-.5 8-3 8-8V7l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+        <div><b>Two safety switches.</b> If <code>GENESIS_REPO.owner</code> is still <code>yourname</code>,
+        every button refuses to navigate and shows a configuration warning — that's how a fresh copy of the
+        site avoids shipping 404 links. And while a release has <code>pending: true</code>, its buttons open
+        the GitHub releases page instead of a missing asset. This site is already pointed at
+        <code>BeginnerCoder142011/Genesis</code>, so only the <code>pending</code> flag applies.</div>
+      </div>
+
+      <h3>Unlisted beta builds</h3>
+      <p>
+        A prerelease goes in <code>GENESIS_BETA</code> rather than the stable array, flagged
+        <code>unlisted: true</code> so it stays out of the changelog and version history. Access is
+        <b>link-only</b>: the Stable/Beta toggle is injected only when the download page is opened with
+        <code>?channel=beta</code>, and every other visit forces the stable channel. Testers are pointed at
+        <code>beta.html</code>, which carries the loader install steps, the test checklist and the report
+        template. Its assets use version-prefixed names
+        (<code>genesis-1.1.0-beta.1-windows-x64.geode</code>) and are published with
+        <code>--prerelease</code>.
+      </p>
+
+      <h3>4. Host the site on GitHub Pages</h3>
+      <p>
+        The site is plain static files — no build step. Push <code>index.html</code>, <code>download.html</code>,
+        <code>docs.html</code>, <code>styles.css</code>, <code>releases.js</code>, <code>preview.js</code>,
+        <code>.nojekyll</code> and <code>.github/workflows/pages.yml</code> to <code>main</code>, then:
+      </p>
+      <ol>
+        <li>Repo → <b>Settings → Pages</b>.</li>
+        <li>Set <b>Source</b> to <b>GitHub Actions</b>.</li>
+        <li>Push again (or run the workflow manually). It publishes on every commit to <code>main</code>.</li>
+      </ol>
+      <p>Live URL: <a href="https://beginnercoder142011.github.io/Genesis/" target="_blank" rel="noopener">https://beginnercoder142011.github.io/Genesis/</a></p>
+
+      <h3>5. Automate the build (optional)</h3>
+      <p>With the Geode GitHub Action you can build every platform in CI and combine them into one archive:</p>
+      <div class="code">
+        <div class="code-bar"><span style="margin-left:2px">.github/workflows/build.yml</span></div>
+<pre>- uses: geode-sdk/build-geode-mod@main
+  with:
+    sdk: 'latest'
+    target: ${{ matrix.target }}      <span class="c-com"># Win64 / MacOS / Android32 / Android64</span>
+    combine: true</pre>
+      </div>
+      <p>Then attach the combined <code>.geode</code> to a release, or build per-platform and upload all five assets.</p>
+    </section>
+
+    <!-- ---------- REFERENCE ---------- -->
+    <section id="reference">
+      <div class="eyebrow">Reference</div>
+      <h2>mod.json and panel settings</h2>
+
+      <h3>mod.json</h3>
+      <p>The metadata GENESIS ships with, in the current Geode schema:</p>
+      <div class="code">
+        <div class="code-bar"><span class="ed-dot r"></span><span class="ed-dot y"></span><span class="ed-dot g"></span><span style="margin-left:8px">mod.json</span></div>
+<pre>{
+  <span class="c-key">"geode"</span>: <span class="c-str">"v5.0.0"</span>,
+  <span class="c-key">"gd"</span>: {
+    <span class="c-key">"win"</span>: <span class="c-str">"2.2081"</span>,
+    <span class="c-key">"mac"</span>: <span class="c-str">"2.2081"</span>,
+    <span class="c-key">"android"</span>: <span class="c-str">"2.2081"</span>,
+    <span class="c-key">"ios"</span>: <span class="c-str">"2.2081"</span>
+  },
+  <span class="c-key">"id"</span>: <span class="c-str">"beginnercoder142011.genesis"</span>,
+  <span class="c-key">"name"</span>: <span class="c-str">"GENESIS"</span>,
+  <span class="c-key">"version"</span>: <span class="c-str">"v1.0.0"</span>,
+  <span class="c-key">"developer"</span>: <span class="c-str">"BeginnerCoder142011"</span>,
+  <span class="c-key">"description"</span>: <span class="c-str">"Adds a Generate button to the editor that builds a beat-synced level from a prompt or a song."</span>,
+  <span class="c-key">"tags"</span>: [<span class="c-str">"editor"</span>, <span class="c-str">"utility"</span>, <span class="c-str">"content"</span>],
+  <span class="c-key">"links"</span>: {
+    <span class="c-key">"homepage"</span>: <span class="c-str">"https://beginnercoder142011.github.io/Genesis/"</span>,
+    <span class="c-key">"source"</span>: <span class="c-str">"https://github.com/BeginnerCoder142011/Genesis"</span>,
+    <span class="c-key">"community"</span>: <span class="c-str">"https://discord.gg/..."</span>
+  },
+  <span class="c-key">"issues"</span>: {
+    <span class="c-key">"info"</span>: <span class="c-str">"Open an issue on GitHub"</span>,
+    <span class="c-key">"url"</span>: <span class="c-str">"https://github.com/BeginnerCoder142011/Genesis/issues"</span>
+  },
+  <span class="c-key">"dependencies"</span>: {
+    <span class="c-key">"geode.node-ids"</span>: <span class="c-str">">=v1.23.3"</span>
+  },
+  <span class="c-key">"settings"</span>: {
+    <span class="c-key">"default-version"</span>: { <span class="c-key">"type"</span>: <span class="c-str">"string"</span>, <span class="c-key">"name"</span>: <span class="c-str">"Default object version"</span>, <span class="c-key">"default"</span>: <span class="c-str">"2.2"</span> },
+    <span class="c-key">"use-song-sync"</span>:   { <span class="c-key">"type"</span>: <span class="c-str">"bool"</span>,   <span class="c-key">"name"</span>: <span class="c-str">"Sync to song by default"</span>, <span class="c-key">"default"</span>: <span class="c-fn">true</span> },
+    <span class="c-key">"allow-teleport"</span>:  { <span class="c-key">"type"</span>: <span class="c-str">"bool"</span>,   <span class="c-key">"name"</span>: <span class="c-str">"Allow teleport portals"</span>, <span class="c-key">"default"</span>: <span class="c-fn">false</span> }
+  }
+}</pre>
+      </div>
+
+      <h3>Panel settings</h3>
+      <table>
+        <thead><tr><th>Setting</th><th>Values</th><th>Default</th></tr></thead>
+        <tbody>
+          <tr><td><code>Source</code></td><td>Prompt · Song library · Both</td><td>Prompt</td></tr>
+          <tr><td><code>Version</code></td><td>1.0 · 1.9 · 2.0 · 2.1 · 2.2</td><td>2.2</td></tr>
+          <tr><td><code>Gadgets</code></td><td>Orbs · Pads · Portals · Speed · Teleport</td><td>Orbs, Pads, Portals</td></tr>
+          <tr><td><code>Mode</code></td><td>Layout · Full decorated</td><td>Layout</td></tr>
+          <tr><td><code>Difficulty</code></td><td>Easy · Normal · Hard · Insane · Extreme</td><td>Insane</td></tr>
+          <tr><td><code>Seed</code></td><td>any integer</td><td>random per pass</td></tr>
+          <tr><td><code>Tempo / offset</code></td><td>BPM + seconds</td><td>read from song</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Links</h3>
+      <ul>
+        <li><a href="https://docs.geode-sdk.org/mods/configuring" target="_blank" rel="noopener">Geode docs — mod.json reference</a></li>
+        <li><a href="https://geode-sdk.org/install" target="_blank" rel="noopener">Install Geode</a></li>
+        <li><a href="https://github.com/geode-sdk/build-geode-mod" target="_blank" rel="noopener">build-geode-mod GitHub Action</a></li>
+        <li><a href="download.html#changelog">GENESIS changelog</a> · <a href="download.html#history">version history</a></li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div style="max-width:280px">
+        <a href="index.html" class="brand" style="margin-bottom:14px">
+          <span class="logo">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z" fill="#08080f"/></svg>
+          </span>
+          GENESIS
+        </a>
+        <p style="color:var(--txt-dim);font-size:13.5px;line-height:1.7">A Geode mod for the Geometry Dash editor. Prompt or song in, playable level out.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Docs</h4>
+        <a href="#getting-started">Getting started</a>
+        <a href="#prompts">Writing prompts</a>
+        <a href="#examples">Worked examples</a>
+        <a href="#troubleshooting">Troubleshooting</a>
+      </div>
+      <div class="foot-col">
+        <h4>Release</h4>
+        <a href="download.html">Download</a>
+        <a href="download.html#changelog">Changelog</a>
+        <a href="download.html#history">Version history</a>
+        <a href="#releasing">Publishing</a>
+      </div>
+      <div class="foot-col">
+        <h4>Community</h4>
+        <a href="https://geode-sdk.org" target="_blank" rel="noopener">Geode SDK</a>
+        <a href="https://discord.gg/geode" target="_blank" rel="noopener">Discord</a>
+        <a href="https://github.com" target="_blank" rel="noopener">Source</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 GENESIS · Geode mod</span>
+      <span class="disclaimer">Not affiliated with RobTop Games or the Geode SDK team. Geometry Dash is a trademark of RobTop Games AB.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="releases.js"></script>
+<script>
+/* ---------- copy prompt / path buttons ---------- */
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const old = btn.textContent;
+    btn.textContent = 'copied ✓';
+    setTimeout(() => { btn.textContent = old; }, 1500);
+  }).catch(() => {
+    btn.textContent = 'select + copy';
+  });
+}
+
+document.querySelectorAll('.pc-copy').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const pre = btn.closest('.prompt-card').querySelector('pre');
+    copyText(pre.innerText, btn);
+  });
+});
+
+document.querySelectorAll('.path-row button').forEach(btn => {
+  btn.addEventListener('click', () => copyText(btn.dataset.copy, btn));
+});
+
+/* ---------- example filter tabs ---------- */
+document.querySelectorAll('#ex-tabs button').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('#ex-tabs button').forEach(t => t.classList.remove('on'));
+    tab.classList.add('on');
+    const f = tab.dataset.filter;
+    document.querySelectorAll('.ex').forEach(card => {
+      card.classList.toggle('show', f === 'all' || card.dataset.diff === f);
+    });
+  });
+});
+
+/* ---------- scrollspy ---------- */
+const navLinks = [...document.querySelectorAll('#docs-nav a')];
+const sections = navLinks
+  .map(a => document.querySelector(a.getAttribute('href')))
+  .filter(Boolean);
+
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    const id = '#' + en.target.id;
+    navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === id));
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+sections.forEach(s => spy.observe(s));
+
+/* ---------- header ---------- */
+const header = document.getElementById('site-header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 12), { passive: true });
+
+/* ---------- wire GitHub links ---------- */
+(() => {
+  const owner = typeof GENESIS_REPO !== 'undefined' ? GENESIS_REPO.owner : null;
+  if (owner && owner !== 'yourname') {
+    document.querySelectorAll('a[href="https://github.com"]').forEach(a => {
+      a.href = GENESIS_GH;
+    });
+  }
+})();
+</script>
+</body>
+</html>
