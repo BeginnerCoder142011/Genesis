@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Download GENESIS — Changelog &amp; Version History</title>
+<meta name="description" content="Download GENESIS for Windows, macOS, Android and iOS. Latest release, full changelog and version history for the Geometry Dash editor mod." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .dl-hero-grid{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end}
+  .ver-pill{
+    display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:11px;
+    border:1px solid rgba(49,227,216,.32);background:rgba(49,227,216,.07);
+    font-family:var(--mono);font-size:12px;color:#8ff3ec;letter-spacing:.05em;white-space:nowrap;
+  }
+  .ver-pill b{font-weight:700;color:#fff;font-size:13.5px;letter-spacing:0}
+  .dl-hero-meta{display:flex;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--txt-faint);margin-top:22px}
+  .dl-hero-meta b{color:var(--txt);font-weight:500}
+
+  .channel{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-bottom:18px}
+  .channel button{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;padding:9px 16px;border:none;
+    background:#151526;color:var(--txt-faint);cursor:pointer;transition:all .18s;
+  }
+  .channel button.on{background:rgba(155,107,255,.16);color:#c9b1ff}
+  .channel button + button{border-left:1px solid var(--line)}
+
+  .arch-row{display:flex;gap:8px;margin-top:14px;align-items:center;flex-wrap:wrap}
+  .arch-row span{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-faint)}
+  .arch-btn{
+    font-family:var(--mono);font-size:11.5px;padding:5px 11px;border-radius:6px;cursor:pointer;
+    border:1px solid var(--line);background:#151526;color:var(--txt-dim);transition:all .18s;
+  }
+  .arch-btn.on{border-color:rgba(49,227,216,.5);background:rgba(49,227,216,.1);color:#8ff3ec}
+
+  .toast{
+    position:fixed;left:50%;bottom:26px;transform:translate(-50%,140%);
+    display:flex;align-items:center;gap:12px;
+    background:#12121f;border:1px solid rgba(49,227,216,.4);border-radius:12px;
+    padding:13px 20px;font-family:var(--mono);font-size:12.5px;color:var(--txt);
+    box-shadow:0 24px 60px -20px rgba(0,0,0,.9),0 0 0 1px rgba(49,227,216,.1);
+    z-index:200;transition:transform .45s cubic-bezier(.2,.8,.3,1),opacity .3s;opacity:0;
+    max-width:calc(100% - 32px);
+  }
+  .toast.show{transform:translate(-50%,0);opacity:1}
+  .toast .spinner{
+    width:14px;height:14px;border-radius:50%;border:2px solid rgba(49,227,216,.25);
+    border-top-color:var(--cyan);animation:spin .8s linear infinite;flex:none;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .rel-body h4{display:none}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="glow a"></div>
+<div class="glow b"></div>
+
+<header id="site-header">
+  <div class="wrap nav">
+    <a href="index.html" class="brand">
+      <span class="logo">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z" fill="#08080f"/></svg>
+      </span>
+      GENESIS
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#preview">Live preview</a>
+      <a href="docs.html">Docs</a>
+      <a href="#changelog">Changelog</a>
+      <a href="#history">Versions</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn ghost" href="docs.html">Read the docs</a>
+      <a class="btn primary" href="#platforms">Download</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="wrap page-hero">
+  <div class="crumbs"><a href="index.html">Home</a><span>/</span>Download</div>
+  <div class="dl-hero-grid">
+    <div>
+      <h1>Get <span class="grad" style="background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent">GENESIS</span>.<br>One file, four platforms.</h1>
+      <p class="lead" style="margin-top:18px">
+        Pick your platform and grab the build that matches it. Every package is a standard
+        <code style="font-family:var(--mono);color:var(--cyan);font-size:.92em">.geode</code> file —
+        install it through the Geode mod browser or drop it into your mods folder.
+      </p>
+      <div class="dl-hero-meta">
+        <span>LATEST&nbsp;<b id="hero-latest">—</b></span>
+        <span>RELEASED&nbsp;<b id="hero-date">—</b></span>
+        <span>TARGET&nbsp;<b>GD 2.2081</b></span>
+        <span>REQUIRES&nbsp;<b>Geode v5.0.0+</b></span>
+      </div>
+    </div>
+    <div class="ver-pill"><span class="dot"></span><b id="hero-pill">—</b> <span id="hero-pill-tail">stable</span><span style="opacity:.45">·</span><span id="hero-geode" style="color:var(--txt-dim)">Geode 5</span></div>
+  </div>
+</section>
+
+<!-- ============ PLATFORM PICKER ============ -->
+<section class="wrap sec" id="platforms" style="padding-top:40px">
+  <div class="sec-head reveal" style="margin-bottom:32px">
+    <div class="eyebrow">Platform</div>
+    <h2>Choose where you play.</h2>
+    <p class="lead">Generation runs locally on every platform. Pick your OS and the download card below switches to that build, filename and size.</p>
+  </div>
+
+  <div class="channel" role="tablist" aria-label="Release channel">
+    <button class="on" data-channel="stable" role="tab" aria-selected="true">Stable</button>
+    <button data-channel="beta" role="tab" aria-selected="false">Beta</button>
+  </div>
+
+  <div class="plat-grid" id="plat-grid">
+    <button class="plat active" data-plat="windows" aria-pressed="true">
+      <span class="plat-ic"><svg viewBox="0 0 24 24"><path d="M3 5.6l7.4-1.1v7.1H3V5.6zm8.6-1.3L21 3v8.6h-9.4V4.3zM3 12.7h7.4v7.1L3 18.7v-6zm8.6 0H21V21l-9.4-1.3v-7z"/></svg></span>
+      <b>Windows</b>
+      <small>10 / 11 · x64</small>
+    </button>
+    <button class="plat" data-plat="macos" aria-pressed="false">
+      <span class="plat-ic"><svg viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.6.9-.8 0-1.9-.9-3.1-.9-1.6 0-3 .9-3.9 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 3 2.3 1.2 0 1.7-.8 3.1-.8 1.4 0 1.8.8 3.1.8 1.3 0 2.1-1.2 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.6-1-2.6-3.3zM14.1 5.2c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.1 1.9-1 3 1 .1 2.1-.5 2.8-1.4z"/></svg></span>
+      <b>macOS</b>
+      <small>11+ · universal</small>
+    </button>
+    <button class="plat" data-plat="android" aria-pressed="false">
+      <span class="plat-ic"><svg viewBox="0 0 24 24"><path d="M6 9h12v9a2 2 0 0 1-2 2h-1v2h-1.6v-2h-2.8v2H9v-2H8a2 2 0 0 1-2-2V9zm-3 .5a1.5 1.5 0 0 1 3 0v6a1.5 1.5 0 0 1-3 0v-6zm15 0a1.5 1.5 0 0 1 3 0v6a1.5 1.5 0 0 1-3 0v-6zM7.3 7.7A5.4 5.4 0 0 1 12 5.2c1.9 0 3.6.9 4.7 2.5l.9-1.5a.5.5 0 1 1 .9.5l-.9 1.5c.5.7.8 1.5.9 2.4H6.5c.1-.9.4-1.7.8-2.4l-.9-1.5a.5.5 0 1 1 .9-.5l.9 1.5zM9.6 7.4a.7.7 0 1 0 0-1.4.7.7 0 0 0 0 1.4zm4.8 0a.7.7 0 1 0 0-1.4.7.7 0 0 0 0 1.4z"/></svg></span>
+      <b>Android</b>
+      <small>8.0+ · arm64 / v7a</small>
+    </button>
+    <button class="plat" data-plat="ios" aria-pressed="false">
+      <span class="plat-badge warn">Experimental</span>
+      <span class="plat-ic"><svg viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.6.9-.8 0-1.9-.9-3.1-.9-1.6 0-3 .9-3.9 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 3 2.3 1.2 0 1.7-.8 3.1-.8 1.4 0 1.8.8 3.1.8 1.3 0 2.1-1.2 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.6-1-2.6-3.3zM14.1 5.2c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.1 1.9-1 3 1 .1 2.1-.5 2.8-1.4z"/></svg></span>
+      <b>iOS</b>
+      <small>14+ · arm64</small>
+    </button>
+  </div>
+
+  <div class="dl-card reveal" id="dl-card">
+    <div class="beta-banner" id="beta-banner" hidden>
+      <strong>Unlisted beta</strong>
+      <span id="beta-banner-text">—</span>
+    </div>
+    <div class="dl-main">
+      <div class="dl-info">
+        <h3 id="dl-title">GENESIS for Windows</h3>
+        <div class="dl-file" id="dl-file">—</div>
+        <div class="dl-meta">
+          <span>VERSION <b id="dl-ver">—</b></span>
+          <span>SIZE <b id="dl-size">—</b></span>
+          <span>ARCH <b id="dl-arch">—</b></span>
+          <span>GD <b id="dl-gd">—</b></span>
+          <span>GEODE <b id="dl-geode">—</b></span>
+        </div>
+        <div class="arch-row" id="arch-row" style="display:none">
+          <span>Android ABI</span>
+          <button class="arch-btn on" data-abi="android">arm64-v8a (64-bit)</button>
+          <button class="arch-btn" data-abi="android32">armeabi-v7a (32-bit)</button>
+        </div>
+      </div>
+      <div class="dl-actions">
+        <button class="btn primary" id="dl-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg>
+          <span id="dl-btn-label">Download for Windows</span>
+        </button>
+        <a class="btn ghost" href="index.html#install">Install guide</a>
+      </div>
+    </div>
+    <div class="dl-note" id="dl-note">
+      <svg viewBox="0 0 24 24"><path d="M12 8v5m0 3h.01"/><circle cx="12" cy="12" r="9"/></svg>
+      <span id="dl-note-text">—</span>
+    </div>
+  </div>
+
+  <div class="dl-requirements reveal">
+    <div class="req">
+      <h4>Requires</h4>
+      <p><b>Geometry Dash 2.2081</b> on <b>Geode v5.0.0+</b> (stable line: v5.11.2). GD 2.2091 needs the Geode 6 beta and the matching GENESIS beta build.</p>
+    </div>
+    <div class="req">
+      <h4>Installing</h4>
+      <p>Download → open GD → <b>Geode → Install from file</b>. Or drop the file into <b>geode/mods</b> and restart the game.</p>
+    </div>
+    <div class="req">
+      <h4>Updating</h4>
+      <p>Install the newer file over the old one — settings and keybinds carry over. Downgrading needs the older file reinstalled.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHANGELOG ============ -->
+<section class="wrap sec" id="changelog" style="padding-top:0">
+  <div class="sec-head reveal">
+    <div class="eyebrow">Changelog</div>
+    <h2>What changed, release by release.</h2>
+    <p class="lead">Newest first, straight from <code style="font-family:var(--mono);font-size:.9em;color:var(--cyan)">releases.js</code>. Breaking changes are flagged — those can affect levels or settings you already have.</p>
+  </div>
+  <div class="log reveal" id="changelog-body"></div>
+</section>
+
+<!-- ============ VERSION HISTORY ============ -->
+<section class="wrap sec" id="history" style="padding-top:0">
+  <div class="sec-head reveal">
+    <div class="eyebrow">Version history</div>
+    <h2>Every build, still downloadable.</h2>
+    <p class="lead">Every published build, newest first. The history starts at <b style="color:var(--txt)">v1.0.0</b> — nothing was tagged before it. Links point at the asset for the platform you selected above.</p>
+  </div>
+
+  <div class="table-shell reveal">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Version</th><th>Released</th><th>Channel</th><th>GD</th>
+            <th>Geode</th><th>File</th><th>Size</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="ver-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <p style="margin-top:16px;font-family:var(--mono);font-size:11.5px;color:var(--txt-faint)">
+    Selected build: <span id="hist-plat" style="color:var(--txt-dim)">windows</span> ·
+    <a id="hist-all" href="#" style="color:var(--cyan)">all releases on GitHub ↗</a>
+  </p>
+
+  <div class="cta reveal" style="margin-top:56px">
+    <div class="eyebrow" style="justify-content:center">Ready</div>
+    <h2>Download once, generate forever.</h2>
+    <p>Grab the build for your platform, open the editor, and press Generate.</p>
+    <div class="cta-actions">
+      <a class="btn primary" href="#platforms">Pick your platform</a>
+      <a class="btn ghost" href="docs.html">Read the prompt guide</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div style="max-width:280px">
+        <a href="index.html" class="brand" style="margin-bottom:14px">
+          <span class="logo">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z" fill="#08080f"/></svg>
+          </span>
+          GENESIS
+        </a>
+        <p style="color:var(--txt-dim);font-size:13.5px;line-height:1.7">A Geode mod for the Geometry Dash editor. Prompt or song in, playable level out.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Mod</h4>
+        <a href="index.html#how">How it works</a>
+        <a href="index.html#features">Features</a>
+        <a href="index.html#builder">Configure</a>
+        <a href="docs.html">Documentation</a>
+      </div>
+      <div class="foot-col">
+        <h4>Releases</h4>
+        <a href="#platforms">Downloads</a>
+        <a href="#changelog">Changelog</a>
+        <a href="#history">Version history</a>
+        <a href="docs.html#troubleshooting">Troubleshooting</a>
+      </div>
+      <div class="foot-col">
+        <h4>Community</h4>
+        <a href="https://geode-sdk.org" target="_blank" rel="noopener">Geode SDK</a>
+        <a href="https://discord.gg/geode" target="_blank" rel="noopener">Discord</a>
+        <a id="foot-source" href="https://github.com" target="_blank" rel="noopener">Source</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 GENESIS · Geode mod</span>
+      <span class="disclaimer">Not affiliated with RobTop Games or the Geode SDK team. Geometry Dash is a trademark of RobTop Games AB.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><span class="spinner"></span><span id="toast-text">Downloading…</span></div>
+
+<script src="releases.js"></script>
+<script>
+/* ============================================================
+   Rendering — everything below reads releases.js
+   ============================================================ */
+const el = id => document.getElementById(id);
+
+let channel = 'stable';
+let platform = 'windows';
+let abi = 'android';   // android | android32
+
+/* ---------- formatting ---------- */
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${d} ${MONTHS[m - 1]} ${y}`;
+}
+
+const PLAT_LABEL = { windows: 'Windows', macos: 'macOS', android: 'Android', ios: 'iOS' };
+
+/* Resolve the asset key for the current selection */
+function currentAssetKey() {
+  if (platform === 'android') return abi;
+  return platform;
+}
+
+function activeRelease() {
+  if (channel === 'beta' && GENESIS_BETA) return GENESIS_BETA;
+  return GENESIS_RELEASES[0];
+}
+
+/* ---------- download card ---------- */
+function renderCard() {
+  const rel = activeRelease();
+  const key = currentAssetKey();
+  const asset = rel.assets ? rel.assets[key] : null;
+
+  el('arch-row').style.display = platform === 'android' ? 'flex' : 'none';
+
+  const isBeta = channel === 'beta';
+  el('dl-title').textContent = `GENESIS for ${PLAT_LABEL[platform]}` + (isBeta ? ' (beta)' : '');
+  el('dl-ver').textContent = rel.version;
+  el('dl-geode').textContent = 'v' + rel.geode;
+  el('dl-gd').textContent = rel.gd;
+
+  const banner = el('beta-banner');
+  if (banner) {
+    banner.hidden = !isBeta;
+    if (isBeta) {
+      el('beta-banner-text').textContent =
+        'GD ' + rel.gd + ' on Geode ' + rel.geode + ' — not listed in the changelog or version history.';
+    }
+  }
+
+  const btn = el('dl-btn');
+  const label = el('dl-btn-label');
+
+  if (!asset) {
+    el('dl-file').textContent = 'no build for this platform';
+    el('dl-size').textContent = '—';
+    el('dl-arch').textContent = '—';
+    label.textContent = `${PLAT_LABEL[platform]} build not available`;
+    btn.dataset.disabled = '1';
+    btn.style.opacity = '.45';
+    btn.style.cursor = 'not-allowed';
+    el('dl-note-text').textContent =
+      'There is no ' + rel.version + ' build for ' + PLAT_LABEL[platform] +
+      (isBeta ? '. iOS has no 2.2091 build yet — use the Stable channel for iOS.' : '');
+    return;
+  }
+
+  el('dl-file').textContent = asset.file;
+  el('dl-size').textContent = asset.size || '—';
+  el('dl-arch').textContent = asset.arch;
+  label.textContent = `Download for ${PLAT_LABEL[platform]}`;
+  delete btn.dataset.disabled;
+  btn.style.opacity = '';
+  btn.style.cursor = '';
+
+  let note;
+  if (asset.experimental) {
+    note = 'Experimental build for sideloaded Geode on iOS 14+. Keep the filename exactly as downloaded — ' +
+      'renamed files are not loaded on iOS. Decoration triggers are not verified on every device.';
+  } else if (rel.note) {
+    note = rel.note;
+  } else if (abi === 'android32' && platform === 'android') {
+    note = '32-bit build (armeabi-v7a) for older devices. Most phones from 2019 onward need the ' +
+      'arm64-v8a build instead. Requires Geode v' + rel.geode + '+ on GD ' + rel.gd + '.';
+  } else {
+    note = 'Requires Geode v' + rel.geode + '+ installed for GD ' + rel.gd +
+      '. Installs through Geode → Install from file, or by dropping the .geode into your mods folder.';
+  }
+  if (rel.pending) {
+    note += ' Not published on GitHub yet — the file appears here once the '
+      + rel.tag + ' release has assets attached.';
+  }
+  el('dl-note-text').textContent = note;
+}
+
+/* ---------- changelog ---------- */
+const TAG_FOR = rel =>
+  rel.latest ? '<span class="tag latest">Latest</span>' :
+  rel.breaking ? '<span class="tag breaking">Breaking</span>' :
+  rel.channel === 'beta' ? '<span class="tag beta">Beta</span>' : '';
+
+function renderChangelog() {
+  const body = el('changelog-body');
+  const all = GENESIS_RELEASES.filter(r => !r.unlisted);
+  body.innerHTML = all.map((rel, i) => {
+    const collapsed = i > 2 ? ' collapsed' : '';
+    const tagClass = rel.latest ? ' latest' : '';
+    const items = rel.changes.map(c =>
+      `<li data-k="${c.k}">${c.text}</li>`
+    ).join('');
+    return `
+      <div class="rel${tagClass}${collapsed}" data-i="${i}">
+        <div class="rel-head">
+          <span class="rel-v">v${rel.version}</span>
+          ${TAG_FOR(rel)}
+          <span class="rel-date">${fmtDate(rel.date)} · ${rel.channel}</span>
+        </div>
+        <div class="rel-body"><ul>${items}</ul></div>
+      </div>`;
+  }).join('');
+
+  // expand / collapse for older entries
+  body.querySelectorAll('.rel.collapsed').forEach(rel => {
+    const head = rel.querySelector('.rel-head');
+    const btn = document.createElement('button');
+    btn.className = 'rel-more';
+    btn.textContent = 'Show changes';
+    rel.appendChild(btn);
+    const toggle = () => {
+      const open = !rel.classList.toggle('collapsed');
+      btn.textContent = open ? 'Hide changes' : 'Show changes';
+    };
+    head.style.cursor = 'pointer';
+    head.addEventListener('click', toggle);
+    btn.addEventListener('click', e => { e.stopPropagation(); toggle(); });
+  });
+}
+
+/* ---------- version history ---------- */
+function renderHistory() {
+  const key = currentAssetKey();
+  el('hist-plat').textContent = key === 'android32' ? 'android (32-bit)' : key;
+
+  el('ver-body').innerHTML = GENESIS_RELEASES.filter(r => !r.unlisted).map(rel => {
+    const asset = rel.assets ? rel.assets[key] : null;
+    const chan = rel.latest
+      ? '<span class="tag latest" style="font-family:var(--mono)">stable</span>'
+      : (rel.channel === 'beta' ? '<span class="tag beta" style="font-family:var(--mono)">beta</span>' : 'stable');
+    return `<tr>
+      <td><b>${rel.version}</b></td>
+      <td>${fmtDate(rel.date)}</td>
+      <td>${chan}</td>
+      <td>${rel.gd}</td>
+      <td>v${rel.geode}</td>
+      <td style="font-family:var(--mono);font-size:11.5px;color:var(--txt-faint)">${asset ? asset.file : '—'}</td>
+      <td style="font-family:var(--mono);font-size:12px">${asset && asset.size ? asset.size : '—'}</td>
+      <td>${asset
+        ? (rel.pending
+            ? `<a href="${GENESIS_GH_RELEASES}" target="_blank" rel="noopener" style="color:var(--txt-faint);font-family:var(--mono);font-size:12px">pending ↗</a>`
+            : `<a href="${genesisAssetUrl(rel.tag, asset.file)}" class="v-dl" data-file="${asset.file}" data-tag="${rel.tag}" style="color:var(--cyan);font-family:var(--mono);font-size:12px">get ↓</a>`)
+        : `<span style="color:var(--txt-faint);font-family:var(--mono);font-size:12px">n/a</span>`}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ---------- hero ---------- */
+function renderHero() {
+  const rel = activeRelease();
+  const isBeta = channel === 'beta';
+  el('hero-latest').textContent = 'v' + rel.version;
+  el('hero-date').textContent = fmtDate(rel.date);
+  el('hero-pill').textContent = 'v' + rel.version;
+  el('hero-geode').textContent = 'Geode ' + rel.geode.split('.')[0] + '.x · GD ' + rel.gd;
+  const pillTail = document.getElementById('hero-pill-tail');
+  if (pillTail) pillTail.textContent = isBeta ? 'beta' : 'stable';
+  el('hist-all').href = GENESIS_GH_RELEASES;
+  const src = document.getElementById('foot-source');
+  if (src) src.href = GENESIS_GH;
+}
+
+/* ---------- toast ---------- */
+function showToast(msg, bad) {
+  const t = el('toast');
+  el('toast-text').textContent = msg;
+  t.style.borderColor = bad ? 'rgba(255,79,163,.5)' : 'rgba(49,227,216,.4)';
+  const sp = t.querySelector('.spinner');
+  sp.style.display = bad ? 'none' : '';
+  t.classList.add('show');
+  clearTimeout(showToast._h);
+  showToast._h = setTimeout(() => t.classList.remove('show'), 4600);
+}
+
+/* ---------- interactions ---------- */
+function repaint() { renderHero(); renderCard(); renderHistory(); }
+
+document.querySelectorAll('.plat').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.plat').forEach(c => {
+      c.classList.remove('active');
+      c.setAttribute('aria-pressed', 'false');
+    });
+    card.classList.add('active');
+    card.setAttribute('aria-pressed', 'true');
+    platform = card.dataset.plat;
+    repaint();
+  });
+});
+
+document.querySelectorAll('.channel button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.channel button').forEach(x => {
+      x.classList.remove('on');
+      x.setAttribute('aria-selected', 'false');
+    });
+    b.classList.add('on');
+    b.setAttribute('aria-selected', 'true');
+    channel = b.dataset.channel;
+    repaint();
+  });
+});
+
+document.querySelectorAll('.arch-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.arch-btn').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    abi = b.dataset.abi;
+    repaint();
+  });
+});
+
+/* primary download */
+el('dl-btn').addEventListener('click', () => {
+  if (el('dl-btn').dataset.disabled) return;
+  const rel = activeRelease();
+  const asset = rel.assets[currentAssetKey()];
+  if (!asset) return;
+
+  if (genesisRepoIsPlaceholder()) {
+    showToast('Set GENESIS_REPO in releases.js to your GitHub repo first.', true);
+    return;
+  }
+  if (rel.pending) {
+    showToast('v' + rel.version + ' is not published on GitHub yet — opening the releases page.');
+    window.open(GENESIS_GH_RELEASES, '_blank', 'noopener');
+    return;
+  }
+  const url = genesisAssetUrl(rel.tag, asset.file);
+  showToast('Downloading ' + asset.file + (asset.size ? ' · ' + asset.size : ''));
+  window.location.href = url;
+});
+
+/* version history rows */
+document.addEventListener('click', e => {
+  const a = e.target.closest('.v-dl');
+  if (!a) return;
+  if (genesisRepoIsPlaceholder()) {
+    e.preventDefault();
+    showToast('Set GENESIS_REPO in releases.js to your GitHub repo first.', true);
+    return;
+  }
+  showToast('Downloading ' + a.dataset.file + ' from ' + a.dataset.tag);
+  // let the browser follow the href
+});
+
+/* ---------- auto-detect platform ---------- */
+(function detect() {
+  const ua = navigator.userAgent;
+  let guess = null;
+  if (/Android/i.test(ua)) guess = 'android';
+  else if (/iPhone|iPad|iPod/i.test(ua)) guess = 'ios';
+  else if (/Macintosh|Mac OS X/i.test(ua)) guess = 'macos';
+  else if (/Windows/i.test(ua)) guess = 'windows';
+  if (!guess) return;
+  const card = document.querySelector('.plat[data-plat="' + guess + '"]');
+  if (!card) return;
+  document.querySelectorAll('.plat').forEach(c => {
+    c.classList.remove('active');
+    c.setAttribute('aria-pressed', 'false');
+  });
+  card.classList.add('active');
+  card.setAttribute('aria-pressed', 'true');
+  platform = guess;
+})();
+
+/* ---------- header + reveal ---------- */
+const header = document.getElementById('site-header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 12), { passive: true });
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  });
+}, { threshold: .12, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.reveal').forEach(x => io.observe(x));
+
+/* ---------- unlisted beta: link-only access ----------
+   The Stable/Beta toggle only exists when the page is opened with
+   ?channel=beta. There is no other way to reach the beta channel from
+   the public site. --------------------------------------------------- */
+const BETA_LINK_MODE = new URLSearchParams(location.search).get('channel') === 'beta';
+
+(function deepLink() {
+  if (!(BETA_LINK_MODE && GENESIS_BETA)) return;
+  channel = 'beta';
+  document.querySelectorAll('.channel button').forEach(b => {
+    const on = b.dataset.channel === 'beta';
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
+  document.title = 'GENESIS beta — GD 2.2091';
+})();
+
+/* hide the toggle (and force stable) if nobody asked for the beta link */
+if (!GENESIS_BETA || !BETA_LINK_MODE) {
+  const ch = document.querySelector('.channel');
+  if (ch) ch.style.display = 'none';
+  channel = 'stable';
+}
+
+/* ---------- init ---------- */
+renderHero();
+renderCard();
+renderChangelog();
+renderHistory();
+</script>
+</body>
+</html>
