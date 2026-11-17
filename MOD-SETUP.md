@@ -6,7 +6,7 @@ produced from a browser or a hosted shell without your game install and toolchai
 
 | File | What it does |
 |---|---|
-| `tools/reference.mod.json` | Canonical v1.0.0 metadata to compare yours against |
+| `tools/mod.json.reference` | Canonical v1.0.0 metadata to compare yours against |
 | `tools/preflight.ps1` | Validates `mod.json`, the Geode CLI, the game folder and the profile |
 | `tools/build-windows.ps1` | Runs preflight → `geode build` → copies the result to `dist\genesis-windows-x64.geode` → prints the smoke test |
 | `scripts/publish-release.sh` | Creates the GitHub release with the five assets |
@@ -34,7 +34,7 @@ geode new
 :: then: cd into the created folder
 ```
 
-Then replace its generated `mod.json` with `tools\reference.mod.json`, changing nothing but
+Then replace its generated `mod.json` with `tools\mod.json.reference`, changing nothing but
 `developer` if you like. The values that matter:
 
 ```json
