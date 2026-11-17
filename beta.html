@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Unlisted tester page: not linked from any navigation, not indexed. -->
+<meta name="robots" content="noindex, nofollow, noarchive" />
+<meta name="referrer" content="no-referrer" />
+<title>GENESIS 1.1.0-beta.1 — tester briefing (GD 2.2091)</title>
+<meta name="description" content="Unlisted tester briefing for GENESIS 1.1.0-beta.1 on Geometry Dash 2.2091 and Geode 6.0.0-alpha." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="glow a"></div>
+<div class="glow b"></div>
+
+<header id="site-header">
+  <div class="wrap nav">
+    <a href="download.html" class="brand">
+      <span class="logo">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z" fill="#08080f"/></svg>
+      </span>
+      GENESIS
+    </a>
+    <nav class="nav-links">
+      <a href="#geode">Install Geode 6</a>
+      <a href="#mod">Install the mod</a>
+      <a href="#checklist">What to test</a>
+      <a href="#report">Report a bug</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn ghost" href="download.html">Stable download</a>
+      <a class="btn primary" href="download.html?channel=beta">Get the beta</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="wrap tester-hero">
+  <div class="private-pill">
+    <svg class="lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+    Unlisted tester build · do not share publicly
+  </div>
+  <h1 style="font-size:clamp(30px,4vw,44px)">GENESIS <span class="grad">1.1.0-beta.1</span></h1>
+  <p class="lead" style="margin-top:16px">
+    A prerelase for <b>Geometry Dash 2.2091</b> on <b>Geode 6.0.0-alpha</b>. This page walks you through
+    installing that loader, installing the beta, what to test, and where to send what you find.
+  </p>
+
+  <div class="dl-hero-meta" style="display:flex;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--txt-faint);margin-top:22px">
+    <span>GD&nbsp;<b style="color:var(--txt)">2.2091</b></span>
+    <span>LOADER&nbsp;<b style="color:var(--txt)">Geode 6.0.0-alpha</b></span>
+    <span>CHANNEL&nbsp;<b style="color:var(--txt)">beta · unlisted</b></span>
+    <span>iOS&nbsp;<b style="color:var(--orange)">not available</b></span>
+  </div>
+
+  <div class="callout danger" style="margin-top:26px">
+    <svg viewBox="0 0 24 24"><path d="M12 9v4m0 3h.01"/><path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+    <div>
+      <b>Neither piece of this is stable.</b> Geode 6.0.0-alpha is a developer-facing prerelease and its own
+      release notes say things will break. GD 2.2091 with an alpha loader can corrupt saves or crash on boot.
+      Test on a copy of your save, not your main level folder — the backup step is below and it is not optional.
+    </div>
+  </div>
+</section>
+
+<div class="wrap docs-wrap" style="grid-template-columns:1fr;max-width:960px">
+  <main class="doc" style="max-width:100%">
+
+    <!-- ---------- BEFORE YOU START ---------- -->
+    <section id="before" style="padding-bottom:52px;scroll-margin-top:92px">
+      <div class="eyebrow">Step 0</div>
+      <h2>Back up before you touch anything</h2>
+      <ol>
+        <li>In GD, open <b>Options → Backup</b> (or your platform's save sync) and save a fresh backup. Note where it went.</li>
+        <li>Copy any level you care about into practice — the beta writes into whatever level you have open.</li>
+        <li>If you use the same device for real play, finish this on a spare install or a second profile.</li>
+      </ol>
+
+      <div class="tester-grid">
+        <div class="tester-card">
+          <h4>Who this is for</h4>
+          <p>People who can read a log file, find a mods folder, and reinstall their game if it breaks.</p>
+        </div>
+        <div class="tester-card">
+          <h4>Who this isn't for</h4>
+          <p>If you just want a working mod today: stay on <b>v1.0.0 stable</b> with GD 2.2081 and Geode v5.x.</p>
+        </div>
+        <div class="tester-card warn">
+          <h4>iOS</h4>
+          <p>There is no 2.2091 test build. The iOS loader is experimental and targets 2.2081 — skip this beta on iOS entirely.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- INSTALL GEODE 6 ---------- -->
+    <section id="geode" style="padding-bottom:52px;scroll-margin-top:92px">
+      <div class="eyebrow">Step 1</div>
+      <h2>Install Geode 6.0.0-alpha on GD 2.2091</h2>
+      <p>
+        Geode 6 is the only loader line that supports GD 2.2091 — stable Geode 5.x is built for 2.2081 and
+        will not load there. Alpha builds are published as <b>pre-releases</b> on the Geode repo, so they don't
+        appear on the normal install page.
+      </p>
+      <div class="callout warn">
+        <svg viewBox="0 0 24 24"><path d="M12 9v4m0 3h.01"/><path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        <div>
+          Open <a href="https://github.com/geode-sdk/geode/releases" target="_blank" rel="noopener">github.com/geode-sdk/geode/releases</a>
+          and pick the newest <code>v6.0.0-alpha.x</code> pre-release. Newer alphas fix 2.209 crashes, so don't
+          pin an old one. If Geode's install page says the loader is currently broken for your game build,
+          wait for the next alpha instead of forcing it.
+        </div>
+      </div>
+
+      <div class="tabs" id="plat-tabs">
+        <button class="on" data-pane="win">Windows</button>
+        <button data-pane="mac">macOS</button>
+        <button data-pane="android">Android</button>
+        <button data-pane="ios">iOS</button>
+      </div>
+
+      <div class="tab-panes">
+        <!-- WINDOWS -->
+        <div class="pane on" id="pane-win">
+          <ol>
+            <li>Quit Geometry Dash completely (check the tray / task manager — the loader can't replace files while it runs).</li>
+            <li>Download <code>geode-installer-v6.0.0-alpha.x-win.exe</code> from the alpha release's assets.</li>
+            <li>Run it and point it at your GD folder — Steam default:
+              <code>C:\Program Files (x86)\Steam\steamapps\common\Geometry Dash</code></li>
+            <li>Launch GD. The main menu should show the Geode button, and Geode → Settings should report <b>6.0.0-alpha.x</b>.</li>
+            <li>Your existing mods are <b>not</b> carried over — 5.x mods won't load on a 6.x loader. Expect an empty mods list.</li>
+          </ol>
+          <div class="paths">
+            <div class="path-row">
+              <b>Mods</b>
+              <code>C:\Program Files (x86)\Steam\steamapps\common\Geometry Dash\geode\mods</code>
+              <button data-copy="C:\Program Files (x86)\Steam\steamapps\common\Geometry Dash\geode\mods">copy</button>
+            </div>
+            <div class="path-row">
+              <b>Logs</b>
+              <code>C:\Program Files (x86)\Steam\steamapps\common\Geometry Dash\geode\logs\Geode.log</code>
+              <button data-copy="C:\Program Files (x86)\Steam\steamapps\common\Geometry Dash\geode\logs\Geode.log">copy</button>
+            </div>
+          </div>
+          <p><b>If it won't boot:</b> hold <kbd>Shift</kbd> from before launch until the game finishes loading — that's Geode's Safe Mode and it loads no mods at all.</p>
+        </div>
+
+        <!-- MACOS -->
+        <div class="pane" id="pane-mac">
+          <ol>
+            <li>Quit Geometry Dash.</li>
+            <li>Download <code>geode-installer-v6.0.0-alpha.x-mac.pkg</code> from the alpha release.</li>
+            <li>Run the installer. If macOS blocks it: <b>System Settings → Privacy &amp; Security → Open Anyway</b>.</li>
+            <li>Launch GD through Steam and confirm the Geode version reads <b>6.0.0-alpha.x</b>.</li>
+            <li>5.x mods don't carry over — the list will be empty until you install 6.x builds.</li>
+          </ol>
+          <div class="paths">
+            <div class="path-row">
+              <b>Mods</b>
+              <code>~/Library/Application Support/Steam/steamapps/common/Geometry Dash/Geometry Dash.app/Contents/geode/mods</code>
+              <button data-copy="~/Library/Application Support/Steam/steamapps/common/Geometry Dash/Geometry Dash.app/Contents/geode/mods">copy</button>
+            </div>
+            <div class="path-row">
+              <b>Logs</b>
+              <code>~/Library/Application Support/Steam/steamapps/common/Geometry Dash/Geometry Dash.app/Contents/geode/logs/Geode.log</code>
+              <button data-copy="~/Library/Application Support/Steam/steamapps/common/Geometry Dash/Geometry Dash.app/Contents/geode/logs/Geode.log">copy</button>
+            </div>
+          </div>
+          <p>In Finder press <kbd>Shift</kbd>+<kbd>Cmd</kbd>+<kbd>G</kbd> and paste the path to jump straight there. Safe Mode is the same: hold <kbd>Shift</kbd> while launching.</p>
+          <p><b>Apple Silicon:</b> the beta ships universal (arm64 + x86_64), so no Rosetta tricks are needed.</p>
+        </div>
+
+        <!-- ANDROID -->
+        <div class="pane" id="pane-android">
+          <ol>
+            <li>Uninstall the old Geode launcher if you have one, then install the current <b>Geode Android launcher APK</b> from <a href="https://github.com/geode-sdk/android-launcher/releases" target="_blank" rel="noopener">geode-sdk/android-launcher</a>.</li>
+            <li>In the launcher, install Geode for your GD 2.2091 install and pick the <b>6.0.0-alpha</b> line when offered.</li>
+            <li>Launch through the launcher. Geode → Settings should read <b>6.0.0-alpha.x</b>.</li>
+            <li>Grab the <b>arm64-v8a</b> beta build unless your device is genuinely old (then armeabi-v7a).</li>
+          </ol>
+          <div class="paths">
+            <div class="path-row">
+              <b>Mods</b>
+              <code>/storage/emulated/0/Android/media/com.geode.launcher/game/geode/mods</code>
+              <button data-copy="/storage/emulated/0/Android/media/com.geode.launcher/game/geode/mods">copy</button>
+            </div>
+            <div class="path-row">
+              <b>Logs</b>
+              <code>/storage/emulated/0/Android/media/com.geode.launcher/game/geode/logs/Geode.log</code>
+              <button data-copy="/storage/emulated/0/Android/media/com.geode.launcher/game/geode/logs/Geode.log">copy</button>
+            </div>
+          </div>
+          <p><b>Safe Mode:</b> press and hold the launcher's Launch button.</p>
+        </div>
+
+        <!-- IOS -->
+        <div class="pane" id="pane-ios">
+          <p>There is no Geode 6 / GD 2.2091 build for iOS, and no iOS beta of GENESIS. Nothing to install here.</p>
+          <p>If you're on iOS, stay on the stable line: <b>GD 2.2081 + Geode v5.x + GENESIS v1.0.0</b>, installed through the Geode iOS launcher. The mod itself is marked experimental on iOS even there.</p>
+          <p><a href="download.html">Back to the stable download page →</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- INSTALL THE MOD ---------- -->
+    <section id="mod" style="padding-bottom:52px;scroll-margin-top:92px">
+      <div class="eyebrow">Step 2</div>
+      <h2>Install the beta .geode</h2>
+      <div class="paths">
+        <div class="path-row">
+          <b>File name</b>
+          <code>genesis-1.1.0-beta.1-&lt;platform&gt;.geode</code>
+          <button data-copy="genesis-1.1.0-beta.1-windows-x64.geode">copy</button>
+        </div>
+      </div>
+      <ol>
+        <li>Get the file from the beta card: <a href="download.html?channel=beta">download.html?channel=beta</a>.</li>
+        <li><b>Install from file:</b> Geode → Mods → <b>Install from file</b> → pick the <code>.geode</code>.</li>
+        <li><b>Or copy it</b> into <code>geode/mods</code> using the path for your platform above, then restart GD.</li>
+        <li>Verify it under Geode → Installed: it should read <b>1.1.0-beta.1</b> with no version warning.</li>
+      </ol>
+      <div class="callout">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8.5h.01"/></svg>
+        <div>Keep the filename exactly as downloaded. Renamed <code>.geode</code> files are refused by the loader — this bites hardest on iOS, where the file also has to be re-signed on install.</div>
+      </div>
+      <p style="font-size:13.5px;color:var(--txt-faint)">
+        Release assets are attached to the <code>v1.1.0-beta.1</code> pre-release on
+        <a href="https://github.com/BeginnerCoder142011/Genesis/releases" target="_blank" rel="noopener">GitHub</a>.
+        If the download button sends you to the releases page instead of a file, the assets aren't uploaded yet — ping the thread.
+      </p>
+    </section>
+
+    <!-- ---------- CHECKLIST ---------- -->
+    <section id="checklist" style="padding-bottom:52px;scroll-margin-top:92px">
+      <div class="eyebrow">Step 3</div>
+      <h2>What to test</h2>
+      <p>
+        Work top to bottom. Ticks are saved in this browser only, so you can close the page and come back.
+        Anything you can't tick is worth a report — "did nothing" and "crashed" are both results.
+      </p>
+
+      <div class="checklist" id="checklist-box">
+        <div class="chk-group">
+          <div class="chk-head">A · Load <span class="count" data-count="a">0 / 4</span></div>
+          <div class="chk-list">
+            <label class="chk"><input type="checkbox" data-id="a1"><span>GD 2.2091 launches past the loading screen with Geode 6.0.0-alpha installed</span></label>
+            <label class="chk"><input type="checkbox" data-id="a2"><span>GENESIS 1.1.0-beta.1 appears in Geode → Installed with no version or platform warning</span></label>
+            <label class="chk"><input type="checkbox" data-id="a3"><span>No crash on the menu when the mod is enabled</span></label>
+            <label class="chk"><input type="checkbox" data-id="a4"><span>Generate button is present in the editor toolbar</span></label>
+          </div>
+        </div>
+
+        <div class="chk-group">
+          <div class="chk-head">B · Panel <span class="count" data-count="b">0 / 4</span></div>
+          <div class="chk-list">
+            <label class="chk"><input type="checkbox" data-id="b1"><span>Panel opens with all settings: source, version, gadgets, mode, difficulty, seed</span></label>
+            <label class="chk"><input type="checkbox" data-id="b2"><span>Settings survive closing and reopening the panel</span></label>
+            <label class="chk"><input type="checkbox" data-id="b3"><span>Tempo / offset shows the selected song's BPM (not 0, not a default)</span></label>
+            <label class="chk"><input type="checkbox" data-id="b4"><span>Seed field copies and pastes, and reproduces the same level</span></label>
+          </div>
+        </div>
+
+        <div class="chk-group">
+          <div class="chk-head">C · Object versions <span class="count" data-count="c">0 / 6</span></div>
+          <div class="chk-list">
+            <label class="chk"><input type="checkbox" data-id="c1"><span>1.0 layout: classic geometry only — no orbs, no 2.x triggers</span></label>
+            <label class="chk"><input type="checkbox" data-id="c2"><span>1.9: wave sections appear, no spider or swing anywhere</span></label>
+            <label class="chk"><input type="checkbox" data-id="c3"><span>2.0: robot sections and move triggers appear</span></label>
+            <label class="chk"><input type="checkbox" data-id="c4"><span>2.1: spider sections and dash orbs appear</span></label>
+            <label class="chk"><input type="checkbox" data-id="c5"><span>2.2: swing and camera controls appear</span></label>
+            <label class="chk"><input type="checkbox" data-id="c6"><span>Switching version mid-level doesn't corrupt objects already placed</span></label>
+          </div>
+        </div>
+
+        <div class="chk-group">
+          <div class="chk-head">D · Song sync <span class="count" data-count="d">0 / 4</span></div>
+          <div class="chk-list">
+            <label class="chk"><input type="checkbox" data-id="d1"><span>Official GD song: obstacles land on the beat in playtest</span></label>
+            <label class="chk"><input type="checkbox" data-id="d2"><span>Newgrounds song: sync correct after the song finishes downloading</span></label>
+            <label class="chk"><input type="checkbox" data-id="d3"><span>Local imported track: BPM is right or can be corrected by hand</span></label>
+            <label class="chk"><input type="checkbox" data-id="d4"><span>Swapping the song and regenerating uses the new grid, not the old one</span></label>
+          </div>
+        </div>
+
+        <div class="chk-group">
+          <div class="chk-head">E · Gadget toggles <span class="count" data-count="e">0 / 4</span></div>
+          <div class="chk-list">
+            <label class="chk"><input type="checkbox" data-id="e1"><span>Orbs off → zero orbs placed, even when the prompt asks for orbs</span></label>
+            <label class="chk"><input type="checkbox" data-id="e2"><span>Portals off → no gamemode changes in the output</span></label>
+            <label class="chk"><input type="checkbox" data-id="e3"><span>Speed off → section stays 1× throughout</span></label>
+            <label class="chk"><input type="checkbox" data-id="e4"><span>Teleport off → no teleport portals in a 2.0+ level</span></label>
+          </div>
+        </div>
+
+        <div class="chk-group">
+          <div class="chk-head">F · Decoration <span class="count" data-count="f">0 / 4</span></div>
+          <div class="chk-list">
+            <label class="chk"><input type="checkbox" data-id="f1"><span>Decorated pass completes on Android <b>(priority — least tested platform)</b></span></label>
+            <label class="chk"><input type="checkbox" data-id="f2"><span>Pulses land on the beat rather than drifting</span></label>
+            <label class="chk"><input type="checkbox" data-id="f3"><span>Camera triggers don't break playability of the section</span></label>
+            <label class="chk"><input type="checkbox" data-id="f4"><span>Object count stays under the level limit and the pass doesn't skip decoration silently</span></label>
+          </div>
+        </div>
+
+        <div class="chk-group">
+          <div class="chk-head">G · Playability &amp; undo <span class="count" data-count="g">0 / 4</span></div>
+          <div class="chk-list">
+            <label class="chk"><input type="checkbox" data-id="g1"><span>Generated section is completable in practice mode</span></label>
+            <label class="chk"><input type="checkbox" data-id="g2"><span>No impossible gaps across at least 3 re-rolls of the same prompt</span></label>
+            <label class="chk"><input type="checkbox" data-id="g3"><span>One Ctrl+Z / undo removes the entire pass, not part of it</span></label>
+            <label class="chk"><input type="checkbox" data-id="g4"><span>Undo after a decorated pass leaves the original layout intact</span></label>
+          </div>
+        </div>
+
+        <div class="chk-group">
+          <div class="chk-head">H · Stability <span class="count" data-count="h">0 / 4</span></div>
+          <div class="chk-list">
+            <label class="chk"><input type="checkbox" data-id="h1"><span>10 consecutive generations without a crash</span></label>
+            <label class="chk"><input type="checkbox" data-id="h2"><span>Generating on a 4-minute level completes without hanging</span></label>
+            <label class="chk"><input type="checkbox" data-id="h3"><span>Generating with an empty song slot does nothing (no hang, no crash)</span></label>
+            <label class="chk"><input type="checkbox" data-id="h4"><span>Geode.log has no errors mentioning <code>genesis</code> after a session</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-bar"><i id="chk-progress"></i></div>
+      <p style="font-family:var(--mono);font-size:11.5px;color:var(--txt-faint);margin-top:8px">
+        <span id="chk-total">0 / 38</span> complete ·
+        <button id="chk-reset" style="background:none;border:none;color:var(--txt-faint);font-family:inherit;font-size:inherit;cursor:pointer;text-decoration:underline">reset</button>
+      </p>
+
+      <h3>Known issues — don't report these</h3>
+      <ul>
+        <li>Android decoration is the least-tested path. Gaps and missing visuals there are expected; a <b>crash</b> is not.</li>
+        <li>No iOS build for 2.2091. That's a loader limitation, not a mod bug.</li>
+        <li>Older mods failing to load on the 6.0.0-alpha loader — that's the alpha, not GENESIS.</li>
+        <li>GD 2.2091 itself is new; unrelated crashes on the alpha loader belong in Geode's issue tracker.</li>
+      </ul>
+    </section>
+
+    <!-- ---------- REPORT ---------- -->
+    <section id="report" style="padding-bottom:40px;scroll-margin-top:92px">
+      <div class="eyebrow">Step 4</div>
+      <h2>Where to send what you find</h2>
+
+      <div class="report-box">
+        <h3>Open an issue on GitHub with the beta template</h3>
+        <p>
+          One issue per problem. Use the <b>Beta bug report</b> template so the fields line up — it asks for
+          everything below.
+        </p>
+        <div class="report-list">
+          <span><b>PLATFORM</b> — Windows / macOS / Android + OS version</span>
+          <span><b>GAME</b> — GD build (2.2091) and where you got it</span>
+          <span><b>LOADER</b> — exact Geode alpha build, e.g. 6.0.0-alpha.2</span>
+          <span><b>MOD</b> — GENESIS 1.1.0-beta.1</span>
+          <span><b>SEED</b> — the seed shown in the panel (makes it reproducible)</span>
+          <span><b>PROMPT</b> — the exact text you used</span>
+          <span><b>SETTINGS</b> — version selector, gadget toggles, mode, difficulty</span>
+          <span><b>LOGS</b> — Geode.log, plus the crashlog if it crashed</span>
+        </div>
+        <div class="report-actions">
+          <a class="btn primary" href="https://github.com/BeginnerCoder142011/Genesis/issues/new?template=beta-bug.yml&amp;labels=beta&amp;title=%5Bbeta%5D%20" target="_blank" rel="noopener">Open a beta issue</a>
+          <button class="btn ghost" id="copy-template">Copy report template</button>
+        </div>
+      </div>
+
+      <p style="font-size:13.5px">
+        Attach the log file directly rather than pasting the last line — the useful part is usually 30 lines
+        above the failure. If a level triggers it, attach the level file too, or tell me the seed and prompt
+        so it can be reproduced.
+      </p>
+
+      <p style="font-size:13.5px;color:var(--txt-faint)">
+        Please don't report alpha-loader bugs to the Geode team as GENESIS bugs, and don't post this page or
+        the beta link publicly — it's unlisted on purpose.
+      </p>
+
+      <h3 style="margin-top:34px">Rolling back</h3>
+      <ol>
+        <li>Uninstall GENESIS beta from Geode → Installed.</li>
+        <li>Reinstall the stable loader for your game build (Geode v5.x for 2.2081, or whichever build you were on).</li>
+        <li>Reinstall <a href="download.html">GENESIS v1.0.0 stable</a>.</li>
+        <li>Restore the save backup you made in step 0 if anything looks off.</li>
+      </ol>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-bottom" style="border-top:none;padding-top:0;margin-top:0">
+      <span>GENESIS 1.1.0-beta.1 · unlisted tester page · not indexed</span>
+      <span class="disclaimer">Not affiliated with RobTop Games or the Geode SDK team.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- platform panes ---------- */
+document.querySelectorAll('#plat-tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#plat-tabs button').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    document.querySelectorAll('.pane').forEach(p => p.classList.toggle('on', p.id === 'pane-' + btn.dataset.pane));
+  });
+});
+
+/* ---------- copy buttons ---------- */
+document.querySelectorAll('[data-copy]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const text = btn.dataset.copy;
+    navigator.clipboard.writeText(text).then(() => {
+      const old = btn.textContent;
+      btn.textContent = 'copied ✓';
+      setTimeout(() => { btn.textContent = old; }, 1500);
+    }).catch(() => { btn.textContent = 'select + copy'; });
+  });
+});
+
+/* ---------- checklist with local persistence ---------- */
+const KEY = 'genesis-beta-1.1.0-checklist';
+const boxes = [...document.querySelectorAll('.chk input[type=checkbox]')];
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { saved = {}; }
+
+function paint() {
+  const total = boxes.length;
+  const done = boxes.filter(b => b.checked).length;
+
+  document.querySelectorAll('.chk-group').forEach(group => {
+    const head = group.querySelector('.chk-head');
+    const key = head.querySelector('.count').dataset.count;
+    const list = [...group.querySelectorAll('input')];
+    const d = list.filter(b => b.checked).length;
+    head.querySelector('.count').textContent = d + ' / ' + list.length;
+  });
+
+  boxes.forEach(b => b.closest('.chk').classList.toggle('done', b.checked));
+
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const bar = document.getElementById('chk-progress');
+  if (bar) bar.style.width = pct + '%';
+  const tot = document.getElementById('chk-total');
+  if (tot) tot.textContent = done + ' / ' + total;
+}
+
+boxes.forEach(b => {
+  b.checked = !!saved[b.dataset.id];
+  b.addEventListener('change', () => {
+    saved[b.dataset.id] = b.checked;
+    try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+    paint();
+  });
+});
+
+const reset = document.getElementById('chk-reset');
+if (reset) reset.addEventListener('click', () => {
+  boxes.forEach(b => { b.checked = false; });
+  saved = {};
+  try { localStorage.removeItem(KEY); } catch (e) {}
+  paint();
+});
+
+paint();
+
+/* ---------- report template ---------- */
+const TEMPLATE = `### GENESIS beta report
+
+**Platform / OS:**
+**Game build:** 2.2091
+**Geode build:** 6.0.0-alpha.x
+**GENESIS version:** 1.1.0-beta.1
+**Seed:**
+**Prompt:**
+**Version selector / gadgets / mode / difficulty:**
+
+### What happened
+<!-- one or two sentences -->
+
+### Steps to reproduce
+1.
+2.
+3.
+
+### Expected
+<!-- what should have happened -->
+
+### Logs
+<!-- attach geode/logs/Geode.log and any crashlog from geode/crashlogs -->
+`;
+
+const copyBtn = document.getElementById('copy-template');
+if (copyBtn) copyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(TEMPLATE).then(() => {
+    const old = copyBtn.textContent;
+    copyBtn.textContent = 'Copied ✓';
+    setTimeout(() => { copyBtn.textContent = old; }, 1600);
+  }).catch(() => { copyBtn.textContent = 'Copy failed — select manually'; });
+});
+
+/* ---------- header shadow ---------- */
+const header = document.getElementById('site-header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 12), { passive: true });
+</script>
+</body>
+</html>
