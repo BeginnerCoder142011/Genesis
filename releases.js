@@ -38,9 +38,10 @@ const GENESIS_RELEASES = [
     gd: '2.2081',
     latest: true,
 
-    /* Flip to false after the release is published with its assets.
-       While true, download buttons route to the releases page. */
-    pending: true,
+    /* false = buttons download directly. download.html still verifies
+       the tag against the GitHub releases API, so a tag that doesn't
+       exist yet routes to the releases page instead of a 404. */
+    pending: false,
 
     assets: {
       windows:   { file: 'genesis-windows-x64.geode',     size: null, arch: 'Win64 · x64' },
@@ -84,8 +85,8 @@ const GENESIS_BETA = {
   gd: '2.2091',
   unlisted: true,
 
-  /* Flip to false once the prerelease is published with its assets. */
-  pending: true,
+  /* false = direct download once the tag exists (same API guard). */
+  pending: false,
 
   note: 'Unlisted beta run on Geometry Dash 2.2091 with Geode 6.0.0-alpha. ' +
         'Stable Geode 5.x cannot load this build, and this build will not load on 2.2081 — ' +
@@ -113,6 +114,7 @@ const GENESIS_BETA = {
 const GENESIS_GH = `https://github.com/${GENESIS_REPO.owner}/${GENESIS_REPO.repo}`;
 const GENESIS_GH_LATEST = `${GENESIS_GH}/releases/latest`;
 const GENESIS_GH_RELEASES = `${GENESIS_GH}/releases`;
+const GENESIS_GH_API_RELEASES = `https://api.github.com/repos/${GENESIS_REPO.owner}/${GENESIS_REPO.repo}/releases`;
 
 function genesisAssetUrl(tag, file) {
   return `${GENESIS_GH}/releases/download/${tag}/${file}`;
