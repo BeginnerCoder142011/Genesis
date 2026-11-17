@@ -1,0 +1,7 @@
+# GENESIS site
+# The beta tester page and the link-only beta channel are not indexed.
+
+User-agent: *
+Allow: /
+Disallow: /beta.html
+Disallow: /download.html?channel=beta
