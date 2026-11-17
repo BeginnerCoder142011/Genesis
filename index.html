@@ -48,7 +48,7 @@
     <p class="lead">
       <b>GENESIS</b> adds a single <code style="font-family:var(--mono);font-size:.92em;color:var(--cyan)">Generate</code>
       button to the Geometry Dash editor. Describe a level — or pick a song from your library — and it builds fully
-      playable, beat-synced geometry right where your cursor is. Layout or full decoration, on any object set from 1.0 to 2.2.
+      playable, beat-synced geometry right where your cursor is. Type <b style="color:var(--txt)">any idea</b> — a mood, a song moment, a difficulty — and the panel fills in the rest. Every object set from 1.0 to 2.2, layout or full decoration.
     </p>
     <div class="hero-actions">
       <a class="btn primary" href="download.html">
@@ -74,7 +74,7 @@
     <div class="ed-panel">
       <div class="ed-row">
         <span>PROMPT</span>
-        <div class="prompt-box">make a hard 2.2 wave part at 180 bpm<span class="caret">▌</span></div>
+        <div class="prompt-box" id="hero-prompt" aria-live="polite">make a hard 2.2 wave part at 180 bpm<span class="caret">▌</span></div>
       </div>
       <div class="ed-row" style="flex-wrap:wrap;gap:7px">
         <span class="chip on">2.2</span>
@@ -135,7 +135,7 @@
     <div class="card reveal">
       <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V5m0 14h16"/><path d="M7 15l3-4 3 3 4-6"/></svg></div>
       <h3>Version-aware object sets</h3>
-      <p>Choose 1.0 through 2.2 and the generator only uses objects, triggers and mechanics that actually existed in that update. No anachronistic teleport portals in a 1.9 level.</p>
+      <p>Every version from 1.0 to 2.2 is selectable, none skipped. Pick one and the generator only uses objects, triggers and mechanics that existed in that update — no anachronistic teleport portals in a 1.9 level.</p>
     </div>
     <div class="card reveal">
       <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/></svg></div>
@@ -232,7 +232,7 @@
   <div class="sec-head reveal">
     <div class="eyebrow">The panel</div>
     <h2>Configure a generation.</h2>
-    <p class="lead">This is what the in-editor panel looks like. Click the options and watch the request — and the expected output — update live.</p>
+    <p class="lead">This is what the in-editor panel looks like. The prompt is free-form — type any idea you have — and these settings are what it can't guess. Click the options and watch the request update live.</p>
   </div>
 
   <div class="config reveal">
@@ -250,6 +250,14 @@
           <span class="cfg-label">Game version</span>
           <div class="opts" data-group="version">
             <div class="opt" data-val="1.0">1.0</div>
+            <div class="opt" data-val="1.1">1.1</div>
+            <div class="opt" data-val="1.2">1.2</div>
+            <div class="opt" data-val="1.3">1.3</div>
+            <div class="opt" data-val="1.4">1.4</div>
+            <div class="opt" data-val="1.5">1.5</div>
+            <div class="opt" data-val="1.6">1.6</div>
+            <div class="opt" data-val="1.7">1.7</div>
+            <div class="opt" data-val="1.8">1.8</div>
             <div class="opt" data-val="1.9">1.9</div>
             <div class="opt" data-val="2.0">2.0</div>
             <div class="opt" data-val="2.1">2.1</div>
@@ -279,6 +287,7 @@
             <div class="opt" data-val="Easy">Easy</div>
             <div class="opt" data-val="Normal">Normal</div>
             <div class="opt" data-val="Hard">Hard</div>
+            <div class="opt" data-val="Harder">Harder</div>
             <div class="opt active" data-val="Insane">Insane</div>
             <div class="opt" data-val="Extreme">Extreme</div>
           </div>
@@ -677,6 +686,26 @@ document.querySelectorAll('.reveal').forEach((el,i)=>{
     if (typeof GENESIS_REPO === 'undefined' || GENESIS_REPO.owner === 'yourname') return;
     document.querySelectorAll('a[href="https://github.com"]').forEach(a => { a.href = GENESIS_GH; });
     document.querySelectorAll('a[href="https://github.com/"]').forEach(a => { a.href = GENESIS_GH; });
+  })();
+</script>
+<script>
+  /* hero prompt: cycle through free-form ideas to show the box takes anything */
+  (function () {
+    const box = document.getElementById('hero-prompt');
+    if (!box) return;
+    const ideas = [
+      'make a hard 2.2 wave part at 180 bpm',
+      'chill cube intro, pads only, no orbs',
+      'something that feels like a sunrise, easy',
+      'extreme spider section, short hops, 2.1',
+      'decorate this layout neon purple, keep gameplay',
+      'fast and angry, 20 seconds, extreme'
+    ];
+    let i = 0;
+    setInterval(() => {
+      i = (i + 1) % ideas.length;
+      box.innerHTML = ideas[i] + '<span class="caret">▌</span>';
+    }, 4200);
   })();
 </script>
 <script src="preview.js" defer></script>
