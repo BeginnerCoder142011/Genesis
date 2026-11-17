@@ -126,7 +126,38 @@ So the moment the release is published:
 
 Changing sizes/dates afterwards is a one-line edit in `releases.js`.
 
-## 7. If you'd rather build in CI
+---
+
+## Fastest path: let CI build all five
+
+No local toolchain needed. `ci/build.yml` in this repo builds every platform on GitHub runners and
+publishes the release for you.
+
+1. Upload `ci/build.yml` as `.github/workflows/build.yml`
+   (drag-and-drop in the GitHub web UI, or `git mv` locally — the API token used to automate this repo
+   doesn't have the Workflows permission, so it can't be done from here).
+2. Push it to `main`.
+3. Tag and push:
+
+   ```bash
+   git tag v1.0.0
+   git push origin v1.0.0
+   ```
+
+4. Actions → **Build and publish GENESIS** builds `Win64 / MacOS / Android64 / Android32 / iOS`, renames
+   each artefact to the site's asset names, and creates the `v1.0.0` release with all of them attached.
+
+Tags containing a `-` (e.g. `v1.1.0-beta.1`) publish as **prereleases**, which is exactly the beta
+channel the download page expects.
+
+The iOS leg is marked `experimental` — if the runner lacks the iOS SDK the other four still publish.
+
+Once the release exists, `download.html` flips its buttons to live on its own (it checks the releases
+API and only serves direct links for tags that exist).
+
+---
+
+## 7. Local builds (if you'd rather not use CI)
 
 Add `geode-sdk/build-geode-mod@main` to the **mod source** repo with a matrix of
 `Win64 / MacOS / Android32 / Android64` (+ iOS on a macOS runner), upload the artefacts, then
